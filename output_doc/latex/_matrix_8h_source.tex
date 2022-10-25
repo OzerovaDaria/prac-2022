@@ -1,0 +1,552 @@
+\hypertarget{_matrix_8h_source}{}\doxysection{Matrix.\+h}
+\label{_matrix_8h_source}\index{Matrix/Matrix.h@{Matrix/Matrix.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SALNIKOV\_TASK\_MATRIX\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SALNIKOV\_TASK\_MATRIX\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}Vector.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{using }cord\_pair = std::pair<num, num>;}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keywordtype}{bool} operator>(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{11 \textcolor{keywordtype}{bool} operator>=(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{12 \textcolor{keywordtype}{bool} operator<(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{13 \textcolor{keywordtype}{bool} operator<=(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{14 \textcolor{keywordtype}{bool} operator==(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{15 \textcolor{keywordtype}{bool} operator!=(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 cord\_pair operator\string~(cord\_pair changed);}
+\DoxyCodeLine{18 cord\_pair operator-\/(cord\_pair first, cord\_pair second);}
+\DoxyCodeLine{19 cord\_pair operator+(cord\_pair pair\_num, nat\_num num);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} hash\_combine(\textcolor{keywordtype}{size\_t} \& seed, num v) \{}
+\DoxyCodeLine{23     \textcolor{keyword}{auto} hasher = std::hash<num>();}
+\DoxyCodeLine{24     seed \string^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);}
+\DoxyCodeLine{25 \}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{28 \textcolor{keyword}{struct }std::hash<cord\_pair>}
+\DoxyCodeLine{29 \{}
+\DoxyCodeLine{30     \textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} operator()(\textcolor{keyword}{const} cord\_pair \& v)\textcolor{keyword}{ const}}
+\DoxyCodeLine{31 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{32         \textcolor{keywordtype}{size\_t} seed = 0;}
+\DoxyCodeLine{33         hash\_combine(seed, v.first);}
+\DoxyCodeLine{34         hash\_combine(seed, v.second);}
+\DoxyCodeLine{35         \textcolor{keywordflow}{return} seed;}
+\DoxyCodeLine{36     \}}
+\DoxyCodeLine{37 \};}
+\DoxyCodeLine{38 \textcolor{comment}{//template<typename T, typename U>}}
+\DoxyCodeLine{39 \textcolor{comment}{//std::size\_t operator()(const std::pair<T,U> \&rhs) const   \{}}
+\DoxyCodeLine{40 \textcolor{comment}{//    size\_t retval = hash\_value<T>(rhs.first);}}
+\DoxyCodeLine{41 \textcolor{comment}{//    hash\_combine(retval, rhs.second);}}
+\DoxyCodeLine{42 \textcolor{comment}{//    return retval;}}
+\DoxyCodeLine{43 \textcolor{comment}{//\}}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_matrix__row__coord}{Matrix\_row\_coord}}}
+\DoxyCodeLine{46 \{}
+\DoxyCodeLine{47     nat\_num val;}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     \mbox{\hyperlink{struct_matrix__row__coord}{Matrix\_row\_coord}}(nat\_num row\_val) : val(row\_val) \{\};}
+\DoxyCodeLine{50 \};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_matrix__column__coord}{Matrix\_column\_coord}}}
+\DoxyCodeLine{53 \{}
+\DoxyCodeLine{54     nat\_num val;}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \mbox{\hyperlink{struct_matrix__column__coord}{Matrix\_column\_coord}}(nat\_num col\_val) : val(col\_val) \{\};}
+\DoxyCodeLine{57 \};}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{class_matrix__coords}{Matrix\_coords}}}
+\DoxyCodeLine{60 \{}
+\DoxyCodeLine{61     cord\_pair left\_corner, right\_corner;}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{public}:}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \mbox{\hyperlink{class_matrix__coords}{Matrix\_coords}}() : left\_corner(0, 0), right\_corner(0, 0) \{\};}
+\DoxyCodeLine{66     \mbox{\hyperlink{class_matrix__coords}{Matrix\_coords}}(num r\_1, num c\_1, num r\_2 = -\/2, num c\_2 = -\/2);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     \mbox{\hyperlink{class_matrix__coords}{Matrix\_coords}}(cord\_pair first, cord\_pair second = cord\_pair(-\/2, -\/2));}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     cord\_pair get\_left() \{\textcolor{keywordflow}{return} left\_corner;\}}
+\DoxyCodeLine{71     cord\_pair get\_right() \{\textcolor{keywordflow}{return} right\_corner;\}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \textcolor{keyword}{template}<AnyNum T>}
+\DoxyCodeLine{76 \textcolor{keyword}{class }\mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy}};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{template} <AnyNum T>}
+\DoxyCodeLine{79 \textcolor{keyword}{class }\mbox{\hyperlink{class_matrix}{Matrix}} \{}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81     \textcolor{keyword}{using }sparse\_mat = std::unordered\_map<cord\_pair, T>;}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     \textcolor{keyword}{static} \textcolor{keyword}{const} num NUM\_BEGIN = 1;}
+\DoxyCodeLine{84     cord\_pair size = cord\_pair(0, 0), last\_zero\_pose = cord\_pair(0, 0);}
+\DoxyCodeLine{85     sparse\_mat nums;}
+\DoxyCodeLine{86     \textcolor{keywordtype}{double} eps = 0.0;}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     std::vector<Matrix\_proxy<T>*> references;}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{keyword}{public}:}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     [[nodiscard]] cord\_pair get\_size()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} size;\}}
+\DoxyCodeLine{94     [[nodiscard]] \textcolor{keywordtype}{double} get\_eps()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} eps;\}}
+\DoxyCodeLine{95     sparse\_mat get\_numbers()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} nums;\}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97     \textcolor{keywordtype}{void} set\_numbers(sparse\_mat new\_nums) \{nums = std::move(new\_nums);\}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99     \mbox{\hyperlink{class_matrix}{Matrix}}(nat\_num mat\_size = 100, T value = T(1))}
+\DoxyCodeLine{100     \{}
+\DoxyCodeLine{101         size = cord\_pair(mat\_size, mat\_size);}
+\DoxyCodeLine{102         \textcolor{keywordflow}{for} (nat\_num ind = NUM\_BEGIN; ind < NUM\_BEGIN + mat\_size; ind++)}
+\DoxyCodeLine{103             add\_number(cord\_pair(ind, ind), value);}
+\DoxyCodeLine{104     \}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \mbox{\hyperlink{class_matrix}{Matrix}}(cord\_pair mat\_size, T value = T(0))}
+\DoxyCodeLine{107     \{}
+\DoxyCodeLine{108         size = mat\_size;}
+\DoxyCodeLine{109         \textcolor{keywordflow}{for} (nat\_num ind = NUM\_BEGIN; ind < NUM\_BEGIN + mat\_size.first; ind++)}
+\DoxyCodeLine{110             \textcolor{keywordflow}{for} (nat\_num s\_ind = NUM\_BEGIN; s\_ind < NUM\_BEGIN + mat\_size.second; s\_ind++) \{}
+\DoxyCodeLine{111                 add\_number(cord\_pair(ind, s\_ind), value);}
+\DoxyCodeLine{112             \}}
+\DoxyCodeLine{113     \}}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{116     \mbox{\hyperlink{class_matrix}{Matrix}}(\mbox{\hyperlink{class_matrix}{Matrix<K>}}\& other)}
+\DoxyCodeLine{117     \{}
+\DoxyCodeLine{118         size = other.get\_size();}
+\DoxyCodeLine{119         eps = other.get\_eps();}
+\DoxyCodeLine{120         nums.clear();}
+\DoxyCodeLine{121         \textcolor{keyword}{auto} other\_map = other.get\_numbers();}
+\DoxyCodeLine{122         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{123             add\_number(it-\/>first, T(it-\/>second));}
+\DoxyCodeLine{124     \}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126     \mbox{\hyperlink{class_matrix}{Matrix}} (\textcolor{keyword}{const} \mbox{\hyperlink{class_matrix}{Matrix}}\& other)}
+\DoxyCodeLine{127     \{}
+\DoxyCodeLine{128         size = other.get\_size();}
+\DoxyCodeLine{129         eps = other.get\_eps();}
+\DoxyCodeLine{130         nums.clear();}
+\DoxyCodeLine{131         \textcolor{keyword}{auto} other\_map = other.get\_numbers();}
+\DoxyCodeLine{132         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{133             add\_number(it-\/>first, it-\/>second);}
+\DoxyCodeLine{134     \}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137     \mbox{\hyperlink{class_matrix}{Matrix}}(\mbox{\hyperlink{class_matrix}{Matrix}}\&\& other) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{138     \{}
+\DoxyCodeLine{139         other.last\_zero\_remove();}
+\DoxyCodeLine{140         \textcolor{keywordflow}{if} (\&other != \textcolor{keyword}{this}) \{}
+\DoxyCodeLine{141             size = other.size;}
+\DoxyCodeLine{142             other.size = cord\_pair(0, 0);}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144             eps = other.eps;}
+\DoxyCodeLine{145             other.eps = 0;}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147             other.last\_zero\_pose = cord\_pair(0, 0);}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149             nums = std::move(other.nums);}
+\DoxyCodeLine{150         \}}
+\DoxyCodeLine{151     \}}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153     \mbox{\hyperlink{class_matrix}{Matrix}} (\textcolor{keyword}{const} \mbox{\hyperlink{class_vector}{Vector<T>}}\& other)}
+\DoxyCodeLine{154     \{}
+\DoxyCodeLine{155         \textcolor{keyword}{auto} vec\_size = other.get\_size();}
+\DoxyCodeLine{156         size = cord\_pair(1, vec\_size);}
+\DoxyCodeLine{157         eps = other.get\_eps();}
+\DoxyCodeLine{158         nums.clear();}
+\DoxyCodeLine{159         \textcolor{keyword}{auto} other\_map = other.get\_numbers();}
+\DoxyCodeLine{160         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{161             add\_number(cord\_pair(1, it-\/>first), it-\/>second);}
+\DoxyCodeLine{162     \}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     \mbox{\hyperlink{class_matrix}{Matrix}}(\textcolor{keyword}{const} std::string\& filename)}
+\DoxyCodeLine{165     \{}
+\DoxyCodeLine{166         std::ifstream in(filename);}
+\DoxyCodeLine{167         std::string buffer;}
+\DoxyCodeLine{168         std::getline(in, buffer);}
+\DoxyCodeLine{169         buffer = clean\_string(buffer);}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171         \textcolor{keywordflow}{while} (buffer.empty())}
+\DoxyCodeLine{172         \{}
+\DoxyCodeLine{173             std::getline(in, buffer);}
+\DoxyCodeLine{174             buffer = clean\_string(buffer);}
+\DoxyCodeLine{175         \}}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177         \textcolor{keyword}{auto} vec\_pos = buffer.find(\textcolor{stringliteral}{"{}matrix"{}});}
+\DoxyCodeLine{178         \textcolor{keyword}{auto} type\_name\_len = std::string(\textcolor{stringliteral}{"{}matrix"{}}).length();}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180         \textcolor{keywordflow}{if} (vec\_pos == std::string::npos)}
+\DoxyCodeLine{181             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Bad input"{}});}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183         buffer = clean\_string(buffer.substr(vec\_pos+type\_name\_len));}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185         \textcolor{keyword}{auto} first\_pair = extract\_nat\_num(buffer);}
+\DoxyCodeLine{186         \textcolor{keyword}{auto} first\_num = first\_pair.first;}
+\DoxyCodeLine{187         \textcolor{keyword}{auto} second\_num = std::stoull(clean\_string(buffer.substr(first\_pair.second)));}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189         size = cord\_pair(first\_num, second\_num);}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191         \textcolor{keywordflow}{while} (std::getline(in, buffer))}
+\DoxyCodeLine{192         \{}
+\DoxyCodeLine{193             buffer = clean\_string(buffer);}
+\DoxyCodeLine{194             \textcolor{keywordflow}{if} (buffer.empty())}
+\DoxyCodeLine{195                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197             \textcolor{keyword}{auto} check = extract\_nat\_num(buffer);}
+\DoxyCodeLine{198             \textcolor{keyword}{auto} first\_pos = check.first;}
+\DoxyCodeLine{199             buffer = clean\_string(buffer.substr(check.second));}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{201             \textcolor{keyword}{auto} check\_two = extract\_nat\_num(buffer);}
+\DoxyCodeLine{202             \textcolor{keyword}{auto} second\_pos = check\_two.first;}
+\DoxyCodeLine{203             buffer = clean\_string(buffer.substr(check\_two.second));}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205             nat\_num start\_pos, end\_pos;}
+\DoxyCodeLine{206             \textcolor{keywordflow}{if} (std::is\_same\_v<T, RationalNumber>)}
+\DoxyCodeLine{207             \{}
+\DoxyCodeLine{208                 start\_pos = buffer.find(\textcolor{charliteral}{'<'});}
+\DoxyCodeLine{209                 end\_pos = buffer.find(\textcolor{charliteral}{'>'}) + 1;}
+\DoxyCodeLine{210             \}}
+\DoxyCodeLine{211             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{structis__complex}{is\_complex<T>::value}})}
+\DoxyCodeLine{212             \{}
+\DoxyCodeLine{213                 start\_pos = buffer.find(\textcolor{charliteral}{'('});}
+\DoxyCodeLine{214                 end\_pos = buffer.find(\textcolor{charliteral}{')'}) + 1;}
+\DoxyCodeLine{215             \}}
+\DoxyCodeLine{216             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{217             \{}
+\DoxyCodeLine{218                 \textcolor{keywordflow}{if} (((std::find(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) != buffer.begin()) \&\&}
+\DoxyCodeLine{219                      std::find(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) != buffer.end()) ||}
+\DoxyCodeLine{220                     (std::count(buffer.begin(), buffer.end(), \textcolor{charliteral}{'.'}) > 1) ||}
+\DoxyCodeLine{221                     (std::count(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) > 1))}
+\DoxyCodeLine{222                     \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}IDIOT!!!"{}});}
+\DoxyCodeLine{223                 start\_pos = buffer.find\_first\_of(\textcolor{stringliteral}{"{}0123456789-\/"{}});}
+\DoxyCodeLine{224                 end\_pos = buffer.find\_first\_not\_of(\textcolor{stringliteral}{"{}0123456789.-\/"{}});}
+\DoxyCodeLine{225             \}}
+\DoxyCodeLine{226             \textcolor{keyword}{auto} need\_num = buffer.substr(start\_pos, end\_pos);}
+\DoxyCodeLine{227             add\_number(cord\_pair(first\_pos, second\_pos), string\_to\_num<T>(need\_num));}
+\DoxyCodeLine{228         \}}
+\DoxyCodeLine{229         in.close();}
+\DoxyCodeLine{230     \}}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{232     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{233     \mbox{\hyperlink{class_matrix}{Matrix}}\& operator=(\mbox{\hyperlink{class_matrix}{Matrix<K>}} other) \textcolor{keyword}{requires} (!std::is\_same\_v<T, K>)}
+\DoxyCodeLine{234     \{}
+\DoxyCodeLine{235         eps = other.get\_eps();}
+\DoxyCodeLine{236         size = other.get\_size();}
+\DoxyCodeLine{237         \textcolor{keyword}{auto} copy\_map = other.get\_numbers();}
+\DoxyCodeLine{238         nums.clear();}
+\DoxyCodeLine{239         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = copy\_map.begin(); it != copy\_map.end(); it++)}
+\DoxyCodeLine{240             add\_number(it-\/>first, T(it-\/>second));}
+\DoxyCodeLine{241         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{242     \}}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244     \mbox{\hyperlink{class_matrix}{Matrix}}\& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_matrix}{Matrix}}\& other)}
+\DoxyCodeLine{245     \{}
+\DoxyCodeLine{246         eps = other.get\_eps();}
+\DoxyCodeLine{247         size = other.get\_size();}
+\DoxyCodeLine{248         \textcolor{keyword}{auto} copy\_map = other.get\_numbers();}
+\DoxyCodeLine{249         nums.clear();}
+\DoxyCodeLine{250         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = copy\_map.begin(); it != copy\_map.end(); it++)}
+\DoxyCodeLine{251             add\_number(it-\/>first, it-\/>second);}
+\DoxyCodeLine{252         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{253     \}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255     \mbox{\hyperlink{class_matrix}{Matrix}}\& operator=(\mbox{\hyperlink{class_matrix}{Matrix}}\&\& other) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{256     \{}
+\DoxyCodeLine{257         other.last\_zero\_remove();}
+\DoxyCodeLine{258         \textcolor{keywordflow}{if} (\&other != \textcolor{keyword}{this}) \{}
+\DoxyCodeLine{259             eps = other.get\_eps();}
+\DoxyCodeLine{260             other.eps = 0;}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262             size = other.get\_size();}
+\DoxyCodeLine{263             other.size = cord\_pair(0, 0);}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265             other.last\_zero\_pose = cord\_pair(0, 0);}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267             nums = std::move(other.nums);}
+\DoxyCodeLine{268         \}}
+\DoxyCodeLine{269         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{270     \}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272     std::string to\_string()}
+\DoxyCodeLine{273     \{}
+\DoxyCodeLine{274         last\_zero\_remove();}
+\DoxyCodeLine{275         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{276         std::string res\_string(\textcolor{stringliteral}{"{}matrix \(\backslash\)t\(\backslash\)t"{}} + std::to\_string(size.first) +}
+\DoxyCodeLine{277                                \textcolor{stringliteral}{"{}\(\backslash\)t"{}} + std::to\_string(size.second) + \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{278         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{279             res\_string += std::to\_string((it-\/>first).first) + \textcolor{stringliteral}{"{}\(\backslash\)t"{}} + std::to\_string((it-\/>first).second) +}
+\DoxyCodeLine{280                           \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t"{}} + string\_transform((*it).second) + \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{281         \textcolor{keywordflow}{return} res\_string;}
+\DoxyCodeLine{282     \}}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284 }
+\DoxyCodeLine{285     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{286     \textcolor{keywordtype}{void} add\_number(cord\_pair pos, K val) \{}
+\DoxyCodeLine{287         \textcolor{keywordflow}{if} (abs(val) >= (\mbox{\hyperlink{structis__complex}{is\_complex<K>::value}} ? eps*eps : eps))}
+\DoxyCodeLine{288             nums[pos] = val;}
+\DoxyCodeLine{289         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nums.find(pos) != nums.end())}
+\DoxyCodeLine{290             nums.erase(pos);}
+\DoxyCodeLine{291     \}}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293     \textcolor{keywordtype}{void} zero\_remove(cord\_pair pos)}
+\DoxyCodeLine{294     \{}
+\DoxyCodeLine{295         \textcolor{keywordflow}{if} ((nums.find(pos) != nums.end()) \&\& (nums[pos] == T(0)))}
+\DoxyCodeLine{296             nums.erase(pos);}
+\DoxyCodeLine{297     \}}
+\DoxyCodeLine{298 }
+\DoxyCodeLine{299     \textcolor{keywordtype}{void} last\_zero\_remove()}
+\DoxyCodeLine{300     \{}
+\DoxyCodeLine{301         zero\_remove(last\_zero\_pose);}
+\DoxyCodeLine{302     \}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304     T\& operator()(cord\_pair pos)}
+\DoxyCodeLine{305     \{}
+\DoxyCodeLine{306         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{307         last\_zero\_remove();}
+\DoxyCodeLine{308         \textcolor{keywordflow}{if} (!(pos <= size))}
+\DoxyCodeLine{309             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}What are you requesting?!"{}});}
+\DoxyCodeLine{310         \textcolor{keywordflow}{if} (nums.find(pos) != nums.end())}
+\DoxyCodeLine{311             \textcolor{keywordflow}{return} nums[pos];}
+\DoxyCodeLine{312         nums[pos] = 0;}
+\DoxyCodeLine{313         last\_zero\_pose = pos;}
+\DoxyCodeLine{314         \textcolor{keywordflow}{return} nums[pos];}
+\DoxyCodeLine{315     \}}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317     T\& operator()(num line\_pos, num row\_pos)}
+\DoxyCodeLine{318     \{}
+\DoxyCodeLine{319         \textcolor{keywordflow}{return} (*\textcolor{keyword}{this})(cord\_pair(line\_pos, row\_pos));}
+\DoxyCodeLine{320     \}}
+\DoxyCodeLine{321 }
+\DoxyCodeLine{322     \mbox{\hyperlink{class_matrix}{Matrix}} operator\string~()}
+\DoxyCodeLine{323     \{}
+\DoxyCodeLine{324         \mbox{\hyperlink{class_matrix}{Matrix}} tr\_mat;}
+\DoxyCodeLine{325         tr\_mat.eps = get\_eps();}
+\DoxyCodeLine{326         std::cout << get\_size().first << std::endl;}
+\DoxyCodeLine{327         tr\_mat.size = \string~get\_size();}
+\DoxyCodeLine{328         tr\_mat.nums.clear();}
+\DoxyCodeLine{329         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{330             tr\_mat.add\_number(\string~(it-\/>first), it-\/>second);}
+\DoxyCodeLine{331         \textcolor{keywordflow}{return} tr\_mat;}
+\DoxyCodeLine{332     \}}
+\DoxyCodeLine{333 }
+\DoxyCodeLine{334     \mbox{\hyperlink{class_matrix}{Matrix}} operator-\/()}
+\DoxyCodeLine{335     \{}
+\DoxyCodeLine{336         \mbox{\hyperlink{class_matrix}{Matrix}} res\_mat(*\textcolor{keyword}{this});}
+\DoxyCodeLine{337         res\_mat.nums.clear();}
+\DoxyCodeLine{338         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{339             res\_mat.add\_number(it-\/>first, -\/(it-\/>second));}
+\DoxyCodeLine{340         \textcolor{keywordflow}{return} res\_mat;}
+\DoxyCodeLine{341     \}}
+\DoxyCodeLine{342 }
+\DoxyCodeLine{343 }
+\DoxyCodeLine{344     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{345     \mbox{\hyperlink{class_matrix}{Matrix}}<\textcolor{keyword}{decltype}(T()+K())> \textcolor{keyword}{operator}+(\mbox{\hyperlink{class_matrix}{Matrix<K>}} other\_mat)}
+\DoxyCodeLine{346     \{}
+\DoxyCodeLine{347         \textcolor{keyword}{using }res\_type = \textcolor{keyword}{decltype}(T()+K());}
+\DoxyCodeLine{348         last\_zero\_remove();}
+\DoxyCodeLine{349         \mbox{\hyperlink{class_matrix}{Matrix<res\_type>}} res\_mat(*\textcolor{keyword}{this});}
+\DoxyCodeLine{350         \textcolor{keyword}{auto} other\_map = other\_mat.get\_numbers();}
+\DoxyCodeLine{351         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{352             res\_mat.add\_number(it-\/>first,}
+\DoxyCodeLine{353                                res\_type(it-\/>second +}
+\DoxyCodeLine{354                                         (nums.find(it-\/>first) == nums.end() ? res\_type(0) :}
+\DoxyCodeLine{355                                          nums[it-\/>first]) ) );}
+\DoxyCodeLine{356         \textcolor{keywordflow}{return} res\_mat;}
+\DoxyCodeLine{357     \}}
+\DoxyCodeLine{358 }
+\DoxyCodeLine{359     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{360     \mbox{\hyperlink{class_matrix}{Matrix}}<\textcolor{keyword}{decltype}(T()-\/K())> \textcolor{keyword}{operator}-\/(\mbox{\hyperlink{class_matrix}{Matrix<K>}} other\_mat)}
+\DoxyCodeLine{361     \{}
+\DoxyCodeLine{362         \textcolor{keyword}{using }res\_type = \textcolor{keyword}{decltype}(T()-\/K());}
+\DoxyCodeLine{363         last\_zero\_remove();}
+\DoxyCodeLine{364         \mbox{\hyperlink{class_matrix}{Matrix<res\_type>}} res\_mat(*\textcolor{keyword}{this});}
+\DoxyCodeLine{365         \textcolor{keyword}{auto} other\_map = other\_mat.get\_numbers();}
+\DoxyCodeLine{366         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{367             res\_mat.add\_number(it-\/>first,}
+\DoxyCodeLine{368                                res\_type(it-\/>second +}
+\DoxyCodeLine{369                                         (nums.find(it-\/>first) == nums.end() ? res\_type(0) :}
+\DoxyCodeLine{370                                          nums[it-\/>first]) ) );}
+\DoxyCodeLine{371         \textcolor{keywordflow}{return} res\_mat;}
+\DoxyCodeLine{372     \}}
+\DoxyCodeLine{373 }
+\DoxyCodeLine{374     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{375     \mbox{\hyperlink{class_matrix}{Matrix}}<\textcolor{keyword}{decltype}(T()*K())> \textcolor{keyword}{operator}*(\mbox{\hyperlink{class_matrix}{Matrix<K>}} other\_mat)}
+\DoxyCodeLine{376     \{}
+\DoxyCodeLine{377         \textcolor{keyword}{using }res\_type = \textcolor{keyword}{decltype}(T()*K());}
+\DoxyCodeLine{378         last\_zero\_remove();}
+\DoxyCodeLine{379         \textcolor{keyword}{auto} first\_size = get\_size(), second\_size = other\_mat.get\_size();}
+\DoxyCodeLine{380         \textcolor{keywordflow}{if} (first\_size.second != second\_size.first)}
+\DoxyCodeLine{381             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Wrong sizes"{}});}
+\DoxyCodeLine{382 }
+\DoxyCodeLine{383         \mbox{\hyperlink{class_matrix}{Matrix<res\_type>}} res\_mat(cord\_pair(first\_size.first, second\_size.second),}
+\DoxyCodeLine{384                                  res\_type(0));}
+\DoxyCodeLine{385         \textcolor{keyword}{auto} other\_nums = other\_mat.get\_numbers();}
+\DoxyCodeLine{386         std::unordered\_map<cord\_pair, res\_type> res\_map;}
+\DoxyCodeLine{387         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{388             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} s\_it = other\_nums.begin(); s\_it != other\_nums.end(); s\_it++)}
+\DoxyCodeLine{389             \{}
+\DoxyCodeLine{390                 \textcolor{keywordflow}{if} ((it-\/>first).second == (s\_it-\/>first).first) \{}
+\DoxyCodeLine{391 }
+\DoxyCodeLine{392                     \textcolor{keyword}{auto} res\_pos = cord\_pair((it-\/>first).first, (s\_it-\/>first).second);}
+\DoxyCodeLine{393 }
+\DoxyCodeLine{394                     res\_map[res\_pos] = res\_type(((res\_map.find(res\_pos) == res\_map.end()) ?}
+\DoxyCodeLine{395                                                  res\_type(0) : res\_map[res\_pos]) + (it-\/>second)*(s\_it-\/>second));}
+\DoxyCodeLine{396                 \}}
+\DoxyCodeLine{397             \}}
+\DoxyCodeLine{398         res\_mat.set\_numbers(res\_map);}
+\DoxyCodeLine{399         \textcolor{keywordflow}{return} res\_mat;}
+\DoxyCodeLine{400     \}}
+\DoxyCodeLine{401 }
+\DoxyCodeLine{402     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{403     \mbox{\hyperlink{class_matrix}{Matrix}}<\textcolor{keyword}{decltype}(T()*K())> \textcolor{keyword}{operator}*(\mbox{\hyperlink{class_vector}{Vector<K>}} vec)}
+\DoxyCodeLine{404     \{}
+\DoxyCodeLine{405         last\_zero\_remove();}
+\DoxyCodeLine{406         \mbox{\hyperlink{class_matrix}{Matrix<K>}} matrix\_vec(vec);}
+\DoxyCodeLine{407         \textcolor{keyword}{auto} vec\_size = vec.get\_size();}
+\DoxyCodeLine{408         \textcolor{keywordflow}{if} (size.first == vec\_size)}
+\DoxyCodeLine{409             \textcolor{keywordflow}{return} matrix\_vec*(*this);}
+\DoxyCodeLine{410         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (size.second == vec\_size)}
+\DoxyCodeLine{411             \textcolor{keywordflow}{return} (*\textcolor{keyword}{this})*(\string~matrix\_vec);}
+\DoxyCodeLine{412         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{413             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Not correct vector size!"{}});}
+\DoxyCodeLine{414     \}}
+\DoxyCodeLine{415 }
+\DoxyCodeLine{416     \mbox{\hyperlink{class_matrix}{Matrix}} operator[](\mbox{\hyperlink{class_matrix__coords}{Matrix\_coords}} boundaries)}
+\DoxyCodeLine{417     \{}
+\DoxyCodeLine{418         \mbox{\hyperlink{class_matrix}{Matrix}} new\_mat;}
+\DoxyCodeLine{419         new\_mat.eps = eps;}
+\DoxyCodeLine{420         \textcolor{keyword}{auto} cur\_numbers = new\_mat.get\_numbers();}
+\DoxyCodeLine{421         cur\_numbers.clear();}
+\DoxyCodeLine{422 }
+\DoxyCodeLine{423         \textcolor{keyword}{auto} left\_boundary = boundaries.get\_left();}
+\DoxyCodeLine{424         \textcolor{keywordflow}{if} (left\_boundary.first == -\/1)}
+\DoxyCodeLine{425             left\_boundary.first = NUM\_BEGIN;}
+\DoxyCodeLine{426         \textcolor{keywordflow}{if} (left\_boundary.second == -\/1)}
+\DoxyCodeLine{427             left\_boundary.second = NUM\_BEGIN;}
+\DoxyCodeLine{428 }
+\DoxyCodeLine{429         \textcolor{keyword}{auto} right\_boundary = boundaries.get\_right();}
+\DoxyCodeLine{430         \textcolor{keywordflow}{if} (right\_boundary.first == -\/1)}
+\DoxyCodeLine{431             right\_boundary.first = size.first;}
+\DoxyCodeLine{432         \textcolor{keywordflow}{if} (right\_boundary.second == -\/1)}
+\DoxyCodeLine{433             right\_boundary.second = size.second;}
+\DoxyCodeLine{434 }
+\DoxyCodeLine{435         \textcolor{keyword}{auto} new\_size = right\_boundary -\/ left\_boundary;}
+\DoxyCodeLine{436         new\_size = new\_size + NUM\_BEGIN;}
+\DoxyCodeLine{437 }
+\DoxyCodeLine{438         new\_mat.size = new\_size;}
+\DoxyCodeLine{439 }
+\DoxyCodeLine{440         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{441         \{}
+\DoxyCodeLine{442             \textcolor{keyword}{auto} pos = it-\/>first;}
+\DoxyCodeLine{443             \textcolor{keywordflow}{if} ((pos >= left\_boundary) \&\& (pos <= right\_boundary))}
+\DoxyCodeLine{444                 cur\_numbers[pos-\/left\_boundary+NUM\_BEGIN] = it-\/>second;}
+\DoxyCodeLine{445         \}}
+\DoxyCodeLine{446         new\_mat.set\_numbers(cur\_numbers);}
+\DoxyCodeLine{447         \textcolor{keywordflow}{return} new\_mat;}
+\DoxyCodeLine{448     \}}
+\DoxyCodeLine{449 }
+\DoxyCodeLine{450     \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy<T>}} operator[](\mbox{\hyperlink{struct_matrix__row__coord}{Matrix\_row\_coord}} num) \{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy<T>}}(\textcolor{keyword}{this}, num);\};}
+\DoxyCodeLine{451     \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy<T>}} operator[](\mbox{\hyperlink{struct_matrix__column__coord}{Matrix\_column\_coord}} num) \{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy<T>}}(\textcolor{keyword}{this}, num);\};}
+\DoxyCodeLine{452 }
+\DoxyCodeLine{453     \textcolor{keywordtype}{void} to\_file(\textcolor{keyword}{const} std::string\& filename = \textcolor{stringliteral}{"{}output.txt"{}})}
+\DoxyCodeLine{454     \{}
+\DoxyCodeLine{455         last\_zero\_remove();}
+\DoxyCodeLine{456         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{457         std::ofstream out(filename);}
+\DoxyCodeLine{458         \textcolor{keywordflow}{if} (!out) \{}
+\DoxyCodeLine{459             std::cout << \textcolor{stringliteral}{"{}Could not write to file "{}} << filename << std::endl;}
+\DoxyCodeLine{460             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{461         \}}
+\DoxyCodeLine{462         out << *\textcolor{keyword}{this} << std::endl;}
+\DoxyCodeLine{463         out.close();}
+\DoxyCodeLine{464     \}}
+\DoxyCodeLine{465 }
+\DoxyCodeLine{466     \textcolor{keywordtype}{void} add\_reference(\mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy<T>}}* new\_ref) \{references.push\_back(new\_ref);\}}
+\DoxyCodeLine{467 }
+\DoxyCodeLine{468     \mbox{\hyperlink{class_matrix}{\string~Matrix}}() \{}
+\DoxyCodeLine{469         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = references.begin(); it != references.end(); it++)}
+\DoxyCodeLine{470             (*it)-\/>object\_deleted();}
+\DoxyCodeLine{471         references.clear();}
+\DoxyCodeLine{472     \}}
+\DoxyCodeLine{473 \};}
+\DoxyCodeLine{474 }
+\DoxyCodeLine{475 \textcolor{keyword}{template}<AnyNum T>}
+\DoxyCodeLine{476 std::ostream\& operator<<(std::ostream\& os, \mbox{\hyperlink{class_matrix}{Matrix<T>}} mat) \{}
+\DoxyCodeLine{477     os << mat.to\_string();}
+\DoxyCodeLine{478     \textcolor{keywordflow}{return} os;}
+\DoxyCodeLine{479 \}}
+\DoxyCodeLine{480 }
+\DoxyCodeLine{481 \textcolor{keyword}{template}<AnyNum T, AnyNum K>}
+\DoxyCodeLine{482 \mbox{\hyperlink{class_matrix}{Matrix}}<\textcolor{keyword}{decltype}(T()*K())> \textcolor{keyword}{operator}*(\mbox{\hyperlink{class_vector}{Vector<T>}} vec, \mbox{\hyperlink{class_matrix}{Matrix<K>}} mat)}
+\DoxyCodeLine{483 \{}
+\DoxyCodeLine{484     \textcolor{keywordflow}{return} mat*vec;}
+\DoxyCodeLine{485 \}}
+\DoxyCodeLine{486 }
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488 \textcolor{keyword}{template}<AnyNum T>}
+\DoxyCodeLine{489 \textcolor{keyword}{class }\mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy}}}
+\DoxyCodeLine{490 \{}
+\DoxyCodeLine{491 }
+\DoxyCodeLine{492     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{class_matrix}{Matrix}}<T>;}
+\DoxyCodeLine{493 }
+\DoxyCodeLine{494     \mbox{\hyperlink{class_matrix}{Matrix<T>}}* mat\_ptr = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{495     nat\_num row\_num = 0;}
+\DoxyCodeLine{496     nat\_num column\_num = 0;}
+\DoxyCodeLine{497 }
+\DoxyCodeLine{498     \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy}}(\mbox{\hyperlink{class_matrix}{Matrix<T>}}* mat, \mbox{\hyperlink{struct_matrix__row__coord}{Matrix\_row\_coord}} num) : mat\_ptr(mat), row\_num(num.val) \{\};}
+\DoxyCodeLine{499     \mbox{\hyperlink{class_matrix__proxy}{Matrix\_proxy}}(\mbox{\hyperlink{class_matrix}{Matrix<T>}}* mat, \mbox{\hyperlink{struct_matrix__column__coord}{Matrix\_column\_coord}} num) : mat\_ptr(mat), column\_num(num.val) \{\};}
+\DoxyCodeLine{500     \textcolor{keywordtype}{void} object\_deleted() \{mat\_ptr = \textcolor{keyword}{nullptr};\}}
+\DoxyCodeLine{501 }
+\DoxyCodeLine{502 \textcolor{keyword}{public}:}
+\DoxyCodeLine{503 }
+\DoxyCodeLine{504     T\& operator()(nat\_num pos)}
+\DoxyCodeLine{505     \{}
+\DoxyCodeLine{506         \textcolor{keywordflow}{if} (mat\_ptr == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{507             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Not existing reference"{}});}
+\DoxyCodeLine{508         \textcolor{keywordflow}{if} (row\_num != 0)}
+\DoxyCodeLine{509             \textcolor{keywordflow}{return} (*mat\_ptr)(row\_num, pos);}
+\DoxyCodeLine{510         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (column\_num != 0)}
+\DoxyCodeLine{511             \textcolor{keywordflow}{return} (*mat\_ptr)(pos, column\_num);}
+\DoxyCodeLine{512         \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Invalid proxy"{}});}
+\DoxyCodeLine{513     \}}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515 }
+\DoxyCodeLine{516     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{517     \textcolor{keyword}{operator} \mbox{\hyperlink{class_vector}{Vector<K>}}()}
+\DoxyCodeLine{518     \{}
+\DoxyCodeLine{519         \textcolor{keywordflow}{if} (mat\_ptr == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{520             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Not existing reference"{}});}
+\DoxyCodeLine{521 }
+\DoxyCodeLine{522         \textcolor{keywordtype}{bool} need\_rows = (row\_num != 0), need\_columns = (column\_num != 0);}
+\DoxyCodeLine{523 }
+\DoxyCodeLine{524         \mbox{\hyperlink{class_vector}{Vector<K>}} new\_vec;}
+\DoxyCodeLine{525         new\_vec.set\_eps(mat\_ptr-\/>get\_eps());}
+\DoxyCodeLine{526 }
+\DoxyCodeLine{527         \textcolor{keyword}{auto} mat\_size = mat\_ptr-\/>get\_size();}
+\DoxyCodeLine{528         \textcolor{keyword}{auto} vec\_size = (need\_rows) ? mat\_size.second : ((need\_columns) ? mat\_size.first : 0);}
+\DoxyCodeLine{529         new\_vec.set\_size(vec\_size);}
+\DoxyCodeLine{530 }
+\DoxyCodeLine{531         \textcolor{keyword}{auto} new\_vec\_nums = new\_vec.get\_numbers();}
+\DoxyCodeLine{532         \textcolor{keyword}{auto} mat\_nums = mat\_ptr -\/> get\_numbers();}
+\DoxyCodeLine{533 }
+\DoxyCodeLine{534         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = mat\_nums.begin(); it != mat\_nums.end(); it++)}
+\DoxyCodeLine{535         \{}
+\DoxyCodeLine{536             \textcolor{keyword}{auto} pos = it-\/>first;}
+\DoxyCodeLine{537             \textcolor{keyword}{auto} cur\_pos = (need\_rows) ? pos.second : ((need\_columns) ? pos.first : 0);}
+\DoxyCodeLine{538             \textcolor{keywordflow}{if} ((need\_rows \&\& (pos.first == row\_num)) || (need\_columns \&\& (pos.second == column\_num)))}
+\DoxyCodeLine{539                 new\_vec.add\_number(cur\_pos, K(it-\/>second));}
+\DoxyCodeLine{540         \}}
+\DoxyCodeLine{541         \textcolor{keywordflow}{return} new\_vec;}
+\DoxyCodeLine{542     \}}
+\DoxyCodeLine{543 \};}
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545 }
+\DoxyCodeLine{546 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SALNIKOV\_TASK\_MATRIX\_H}}
+
+\end{DoxyCode}

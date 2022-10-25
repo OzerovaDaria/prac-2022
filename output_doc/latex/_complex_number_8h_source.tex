@@ -1,0 +1,403 @@
+\hypertarget{_complex_number_8h_source}{}\doxysection{Complex\+Number.\+h}
+\label{_complex_number_8h_source}\index{Numbers/ComplexNumber.h@{Numbers/ComplexNumber.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SALNIKOV\_TASK\_COMPLEX\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SALNIKOV\_TASK\_COMPLEX\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}Rational.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../parsing/parsing.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{8 \textcolor{keyword}{concept }RatNumeric = std::is\_arithmetic\_v<T> || Custom<T>;}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{template}<RatNumeric T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{11 std::string num\_to\_string(T num) \{\textcolor{keywordflow}{return} std::to\_string(num);\}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{template}<Custom T>}
+\DoxyCodeLine{14 std::string num\_to\_string(T num) \{\textcolor{keywordflow}{return} num.to\_string();\}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{template}<RatNumeric T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{17 T custom\_round(T num) \{\textcolor{keywordflow}{return} round(num);\}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{template}<Custom T>}
+\DoxyCodeLine{20 T custom\_round(T num) \{\textcolor{keywordflow}{return} num.round();\}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{template}<RatNumeric T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{23 T custom\_floor(T num) \{\textcolor{keywordflow}{return} floor(num);\}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{template}<Custom T>}
+\DoxyCodeLine{26 T custom\_floor(T num) \{\textcolor{keywordflow}{return} num.floor();\}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{template}<RatNumeric T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{29 T custom\_ceil(T num) \{\textcolor{keywordflow}{return} ceil(num);\}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{template}<Custom T>}
+\DoxyCodeLine{32 T custom\_ceil(T num) \{\textcolor{keywordflow}{return} num.ceil();\}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{template} <RatNumeric T>}
+\DoxyCodeLine{35 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_num\_from\_type()}
+\DoxyCodeLine{36 \{}
+\DoxyCodeLine{37     \textcolor{keywordflow}{if} (std::is\_floating\_point\_v<T>)}
+\DoxyCodeLine{38         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{39     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (std::is\_integral\_v<T>)}
+\DoxyCodeLine{40         \textcolor{keywordflow}{return} 4;}
+\DoxyCodeLine{41     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (std::is\_same\_v<T, long\_number>)}
+\DoxyCodeLine{42         \textcolor{keywordflow}{return} 16;}
+\DoxyCodeLine{43     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (std::is\_same\_v<T, RationalNumber>)}
+\DoxyCodeLine{44         \textcolor{keywordflow}{return} 64;}
+\DoxyCodeLine{45 \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{48 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_num\_type()}
+\DoxyCodeLine{49 \{}
+\DoxyCodeLine{50     \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} res = get\_num\_from\_type<T>() + get\_num\_from\_type<K>();}
+\DoxyCodeLine{51     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{52 \}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T> \&\& std::is\_signed\_v<T>)}
+\DoxyCodeLine{55 num string\_to\_num(\textcolor{keyword}{const} std::string\& num)}
+\DoxyCodeLine{56 \{}
+\DoxyCodeLine{57     \textcolor{keywordflow}{return} std::stoll(num);}
+\DoxyCodeLine{58 \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T> \&\& !std::is\_signed\_v<T>)}
+\DoxyCodeLine{61 nat\_num string\_to\_num(\textcolor{keyword}{const} std::string\& num)}
+\DoxyCodeLine{62 \{}
+\DoxyCodeLine{63     \textcolor{keywordflow}{return} std::stoull(num);}
+\DoxyCodeLine{64 \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_floating\_point\_v<T>)}
+\DoxyCodeLine{67 \textcolor{keywordtype}{double} string\_to\_num(\textcolor{keyword}{const} std::string\& num)}
+\DoxyCodeLine{68 \{}
+\DoxyCodeLine{69     \textcolor{keywordflow}{return} std::stod(num);}
+\DoxyCodeLine{70 \}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{template} <Custom T>}
+\DoxyCodeLine{73 T string\_to\_num(\textcolor{keyword}{const} std::string\& num)}
+\DoxyCodeLine{74 \{}
+\DoxyCodeLine{75     \textcolor{keywordflow}{return} T(num);}
+\DoxyCodeLine{76 \}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{template} <RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{79 \textcolor{keyword}{class }\mbox{\hyperlink{class_complex_number}{ComplexNumber}};}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{82 \textcolor{keyword}{using }result\_type =}
+\DoxyCodeLine{83 \textcolor{keyword}{typename} std::conditional\_t<(get\_num\_type<T, K>() <= 4), \textcolor{keywordtype}{double},}
+\DoxyCodeLine{84         \textcolor{keyword}{typename} std::conditional\_t<(get\_num\_type<T, K>() == 8),}
+\DoxyCodeLine{85         \textcolor{keyword}{typename} std::conditional\_t<(std::is\_signed\_v<T> || std::is\_signed\_v<K>), num, nat\_num>,}
+\DoxyCodeLine{86                 \textcolor{keyword}{typename} std::conditional\_t<(get\_num\_type<T, K>() > 16 \&\& (get\_num\_type<T, K>() <= 32)), \mbox{\hyperlink{classlong__number}{long\_number}},}
+\DoxyCodeLine{87                         \mbox{\hyperlink{class_rational_number}{RationalNumber}}>>>;}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{keyword}{template} <RatNumeric R = \textcolor{keywordtype}{double}, RatNumeric I = R>}
+\DoxyCodeLine{90 \textcolor{keyword}{class }\mbox{\hyperlink{class_complex_number}{ComplexNumber}} \{}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92     \textcolor{keyword}{using }complex = std::pair<R, I>;}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94     complex number;}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{keyword}{public}:}
+\DoxyCodeLine{97     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}() : number(0, 0) \{\};}
+\DoxyCodeLine{98     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(R first\_part, I second\_part): number(first\_part, second\_part) \{\};}
+\DoxyCodeLine{99     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(R first\_part) : number(first\_part, 0) \{\};}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{keyword}{template}<RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{102     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}} num)}
+\DoxyCodeLine{103     \{}
+\DoxyCodeLine{104         \textcolor{keywordtype}{int} first\_first = get\_num\_from\_type<R>(), first\_second = get\_num\_from\_type<I>();}
+\DoxyCodeLine{105         \textcolor{keywordtype}{int} second\_first = get\_num\_from\_type<T>(), second\_second = get\_num\_from\_type<K>();}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107         \textcolor{keywordtype}{bool} rtypes\_ge = (first\_first >= second\_first);}
+\DoxyCodeLine{108         \textcolor{keywordtype}{bool} itypes\_ge = (first\_second >= second\_second);}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110         \textcolor{keywordtype}{bool} rtypes\_fi\_conv = (first\_first + second\_first == 4);}
+\DoxyCodeLine{111         \textcolor{keywordtype}{bool} itypes\_fi\_conv = (first\_second + second\_second == 4);}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113         \textcolor{keywordtype}{bool} r\_lnum\_f\_conv = (first\_first == 16) \&\& (second\_first == 0);}
+\DoxyCodeLine{114         \textcolor{keywordtype}{bool} i\_lnum\_f\_conv = (first\_second == 16) \&\& (second\_second == 0);}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116         \textcolor{keywordflow}{if} ( ((rtypes\_ge \&\& !r\_lnum\_f\_conv) || rtypes\_fi\_conv) \&\&}
+\DoxyCodeLine{117              ((itypes\_ge \&\& !i\_lnum\_f\_conv) || itypes\_fi\_conv) ) \{}
+\DoxyCodeLine{118             number = complex((R) num.get\_real(), (I) num.get\_imag());}
+\DoxyCodeLine{119         \}}
+\DoxyCodeLine{120         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{121             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}YOU FOOL WHAT ARE YOU DOING"{}});}
+\DoxyCodeLine{122     \}}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* c\_string)}
+\DoxyCodeLine{125     \{}
+\DoxyCodeLine{126         std::string some\_string(c\_string);}
+\DoxyCodeLine{127         \textcolor{keyword}{auto} good\_string = string\_strip(only\_one\_space(some\_string));}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129         \textcolor{keyword}{auto} first\_pos = good\_string.find(\textcolor{charliteral}{'('}), end\_pos = good\_string.find(\textcolor{charliteral}{')'});}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132         \textcolor{keywordflow}{if} (!((first\_pos == std::string::npos) \&\& (end\_pos == std::string::npos))}
+\DoxyCodeLine{133             \&\& (!((first\_pos == 0) \&\& (end\_pos == good\_string.length()-\/1))))}
+\DoxyCodeLine{134             \textcolor{keywordflow}{throw} std::logic\_error(good\_string + \textcolor{stringliteral}{"{} is not a complex number"{}});}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136         first\_pos = (first\_pos == std::string::npos) ? 0 : first\_pos + 1;}
+\DoxyCodeLine{137         end\_pos = (end\_pos == std::string::npos) ? good\_string.length() : end\_pos-\/1;}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139         \textcolor{comment}{//std::cout << first\_pos << end\_pos << std::endl;}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141         \textcolor{keyword}{auto} res\_string = good\_string.substr(first\_pos, end\_pos);}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143         \textcolor{keyword}{auto} sl\_pos = res\_string.find(\textcolor{charliteral}{','});}
+\DoxyCodeLine{144         \textcolor{keywordflow}{if} (sl\_pos == std::string::npos)}
+\DoxyCodeLine{145         \{}
+\DoxyCodeLine{146             \textcolor{keywordflow}{if} (res\_string.empty())}
+\DoxyCodeLine{147             \{}
+\DoxyCodeLine{148                 number = complex(0, 0);}
+\DoxyCodeLine{149                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{150             \}}
+\DoxyCodeLine{151             \textcolor{keywordflow}{if} (!(is\_number(res\_string)) \&\&}
+\DoxyCodeLine{152             (std::count(res\_string.begin(), res\_string.end(), \textcolor{charliteral}{'/'}) != 1) \&\&}
+\DoxyCodeLine{153             !((res\_string.at(0) == \textcolor{charliteral}{'<'}) \&\& (res\_string.at(res\_string.length()-\/1) == \textcolor{charliteral}{'>'})))}
+\DoxyCodeLine{154                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{classnot__a__number__error}{not\_a\_number\_error}}(some\_string);}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156             std::cout << res\_string << std::endl;}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158             R converted = string\_to\_num<R>(res\_string);}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160             std::cout << \textcolor{stringliteral}{"{}Converted: "{}} << converted << std::endl;}
+\DoxyCodeLine{161             \textcolor{comment}{//if (res\_string.}}
+\DoxyCodeLine{162             number = complex(converted, 0);}
+\DoxyCodeLine{163             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{164         \}}
+\DoxyCodeLine{165         std::string first\_part = string\_strip(only\_one\_space(res\_string.substr(0, sl\_pos))),}
+\DoxyCodeLine{166         second\_part = string\_strip(only\_one\_space(res\_string.substr(sl\_pos + 1)));}
+\DoxyCodeLine{167         \textcolor{comment}{//std::cout << "{}F: "{} << first\_part << "{}, S: "{} << second\_part << std::endl;}}
+\DoxyCodeLine{168         R converted\_first = string\_to\_num<R>(first\_part);}
+\DoxyCodeLine{169         I converted\_second = string\_to\_num<I>(second\_part);}
+\DoxyCodeLine{170         number = complex(converted\_first, converted\_second);}
+\DoxyCodeLine{171     \}}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173     \textcolor{keyword}{template}<RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{174     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator= (\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}} num)}
+\DoxyCodeLine{175     \{}
+\DoxyCodeLine{176         number = complex(num.get\_num());}
+\DoxyCodeLine{177         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{178     \}}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     \textcolor{keyword}{template}<RatNumeric T>}
+\DoxyCodeLine{181     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator= (T num)}
+\DoxyCodeLine{182     \{}
+\DoxyCodeLine{183         number = complex(num, 0);}
+\DoxyCodeLine{184         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{185     \}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188     complex get\_num() \{\textcolor{keywordflow}{return} number;\}}
+\DoxyCodeLine{189     R get\_real() \{\textcolor{keywordflow}{return} number.first;\}}
+\DoxyCodeLine{190     I get\_imag() \{\textcolor{keywordflow}{return} number.second;\}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{193     \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<T, R>}}, result\_type<I, K>> operator+(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}} num)}
+\DoxyCodeLine{194     \{}
+\DoxyCodeLine{195         \textcolor{keyword}{auto} res\_num = \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<T, R>}}, result\_type<I, K>>(get\_real() + num.get\_real(),}
+\DoxyCodeLine{196                                                                            get\_imag() + num.get\_imag());}
+\DoxyCodeLine{197         \textcolor{keywordflow}{return} res\_num;}
+\DoxyCodeLine{198     \}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200     \textcolor{keyword}{template} <RatNumeric T>}
+\DoxyCodeLine{201     \textcolor{keyword}{auto} operator+(T num)}
+\DoxyCodeLine{202     \{}
+\DoxyCodeLine{203         \textcolor{keyword}{auto} to\_complex = \mbox{\hyperlink{class_complex_number}{ComplexNumber<T, int>}}(num);}
+\DoxyCodeLine{204         \textcolor{keywordflow}{return} *\textcolor{keyword}{this} + to\_complex;}
+\DoxyCodeLine{205     \}}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{208     \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<T, R>}}, result\_type<I, K>> operator-\/(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num)}
+\DoxyCodeLine{209     \{}
+\DoxyCodeLine{210         \textcolor{keyword}{auto} res\_num = \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<T, R>}}, result\_type<I, K>>(get\_real() -\/ num.get\_real(),}
+\DoxyCodeLine{211                                                                            get\_imag() -\/ num.get\_imag());}
+\DoxyCodeLine{212         \textcolor{keywordflow}{return} res\_num;}
+\DoxyCodeLine{213     \}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215     \textcolor{keyword}{template} <RatNumeric T>}
+\DoxyCodeLine{216     \textcolor{keyword}{auto} operator-\/(T num)}
+\DoxyCodeLine{217     \{}
+\DoxyCodeLine{218         \textcolor{keyword}{auto} to\_complex = \mbox{\hyperlink{class_complex_number}{ComplexNumber<T, int>}}(num);}
+\DoxyCodeLine{219         \textcolor{keywordflow}{return} *\textcolor{keyword}{this} -\/ to\_complex;}
+\DoxyCodeLine{220     \}}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{223     \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<result\_type<R, T>}}, result\_type<I, K>>,}
+\DoxyCodeLine{224             result\_type<result\_type<R, K>, result\_type<I, T>>> operator*(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num)}
+\DoxyCodeLine{225     \{}
+\DoxyCodeLine{226         \textcolor{keyword}{using }first\_mult = result\_type<R, T>;}
+\DoxyCodeLine{227         \textcolor{keyword}{using }second\_mult = result\_type<I, K>;}
+\DoxyCodeLine{228         \textcolor{keyword}{using }third\_mult = result\_type<R, K>;}
+\DoxyCodeLine{229         \textcolor{keyword}{using }fourth\_mult = result\_type<I, T>;}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231         \textcolor{keyword}{auto} res\_num = \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<first\_mult, second\_mult>}},}
+\DoxyCodeLine{232                 result\_type<third\_mult, second\_mult>>(}
+\DoxyCodeLine{233                 first\_mult(get\_real() * num.get\_real()) -\/ second\_mult(get\_imag() * num.get\_imag()),}
+\DoxyCodeLine{234                 third\_mult(get\_real()*num.get\_imag()) + fourth\_mult(get\_imag()*num.get\_real()));}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236         \textcolor{keywordflow}{return} res\_num;}
+\DoxyCodeLine{237     \}}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239     \textcolor{keyword}{template} <RatNumeric T>}
+\DoxyCodeLine{240     \textcolor{keyword}{auto} operator*(T num)}
+\DoxyCodeLine{241     \{}
+\DoxyCodeLine{242         \textcolor{keyword}{auto} to\_complex = \mbox{\hyperlink{class_complex_number}{ComplexNumber<T, int>}}(num);}
+\DoxyCodeLine{243         \textcolor{keywordflow}{return} *\textcolor{keyword}{this} * to\_complex;}
+\DoxyCodeLine{244     \}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{247     \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<result\_type<R, T>}}, result\_type<I, K>>,}
+\DoxyCodeLine{248     result\_type<result\_type<I, T>, result\_type<R, K>>> operator/(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num)}
+\DoxyCodeLine{249     \{}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251         \textcolor{keyword}{using }first\_mult = result\_type<R, T>;}
+\DoxyCodeLine{252         \textcolor{keyword}{using }second\_mult = result\_type<I, K>;}
+\DoxyCodeLine{253         \textcolor{keyword}{using }third\_mult = result\_type<R, K>;}
+\DoxyCodeLine{254         \textcolor{keyword}{using }fourth\_mult = result\_type<I, T>;}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256         \textcolor{keyword}{auto} sqr\_val = [](I val) \{\textcolor{keywordflow}{return} val * val;\};}
+\DoxyCodeLine{257         I rad\_val = sqr\_val(num.get\_real()) + sqr\_val(num.get\_imag());}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259         \textcolor{keyword}{auto} res\_num = \mbox{\hyperlink{class_complex_number}{ComplexNumber<result\_type<first\_mult, second\_mult>}},}
+\DoxyCodeLine{260                 result\_type<fourth\_mult, third\_mult>>}
+\DoxyCodeLine{261                 ((first\_mult(get\_real() * num.get\_real()) + second\_mult(get\_imag() * num.get\_imag())) / rad\_val,}
+\DoxyCodeLine{262                  (fourth\_mult(get\_imag()*num.get\_real()) -\/ third\_mult(get\_real()*num.get\_imag()))/rad\_val);}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{264         \textcolor{keywordflow}{return} res\_num;}
+\DoxyCodeLine{265     \}}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267     \textcolor{keyword}{template} <RatNumeric T>}
+\DoxyCodeLine{268     \textcolor{keyword}{auto} operator/(T num)}
+\DoxyCodeLine{269     \{}
+\DoxyCodeLine{270         \textcolor{keyword}{auto} to\_complex = \mbox{\hyperlink{class_complex_number}{ComplexNumber<T, int>}}(num);}
+\DoxyCodeLine{271         \textcolor{keywordflow}{return} *\textcolor{keyword}{this} / to\_complex;}
+\DoxyCodeLine{272     \}}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274     \mbox{\hyperlink{class_complex_number}{ComplexNumber}} operator-\/();}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator =(\textcolor{keyword}{const} \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& num) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{279     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator +=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + num;\}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{282     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator -\/=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ num;\}}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{285     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator *=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} * num;\}}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{288     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator /=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} / num;\}}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator++() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + 1;\}}
+\DoxyCodeLine{291     \textcolor{keyword}{const} \mbox{\hyperlink{class_complex_number}{ComplexNumber}} operator++(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{292     \mbox{\hyperlink{class_complex_number}{ComplexNumber}}\& operator-\/-\/() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ 1;\}}
+\DoxyCodeLine{293     \textcolor{keyword}{const} \mbox{\hyperlink{class_complex_number}{ComplexNumber}} operator-\/-\/(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{294 }
+\DoxyCodeLine{295     \mbox{\hyperlink{class_rational_number}{RationalNumber}} abs() \{}
+\DoxyCodeLine{296         \textcolor{keyword}{auto} pam = \mbox{\hyperlink{class_rational_number}{RationalNumber}}(number.first*number.first);}
+\DoxyCodeLine{297         \textcolor{keyword}{auto} pum = \mbox{\hyperlink{class_rational_number}{RationalNumber}}(number.second*number.second);}
+\DoxyCodeLine{298         \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(number.first*number.first) + \mbox{\hyperlink{class_rational_number}{RationalNumber}}(number.second*number.second);}
+\DoxyCodeLine{299     \}}
+\DoxyCodeLine{300     std::string to\_string();}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{303     \textcolor{keywordtype}{bool} operator<(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} abs() < num.abs();\}}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{306     \textcolor{keywordtype}{bool} operator<=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} abs() < num.abs() || *\textcolor{keyword}{this} == num;\}}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{309     \textcolor{keywordtype}{bool} operator>(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} abs() > num.abs();\}}
+\DoxyCodeLine{310 }
+\DoxyCodeLine{311     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{312     \textcolor{keywordtype}{bool} operator>=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} abs() > num.abs() || *\textcolor{keyword}{this} == num;\}}
+\DoxyCodeLine{313 }
+\DoxyCodeLine{314     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{315     \textcolor{keywordtype}{bool} operator==(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num)}
+\DoxyCodeLine{316     \{}
+\DoxyCodeLine{317         \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(get\_real()) == \mbox{\hyperlink{class_rational_number}{RationalNumber}}(num.get\_real()) \&\&}
+\DoxyCodeLine{318         \mbox{\hyperlink{class_rational_number}{RationalNumber}}(get\_imag()) == \mbox{\hyperlink{class_rational_number}{RationalNumber}}(num.get\_imag());}
+\DoxyCodeLine{319     \}}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321     \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{322     \textcolor{keywordtype}{bool} operator!=(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}}\& num) \{\textcolor{keywordflow}{return} !(*\textcolor{keyword}{this} == num);\}}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324     \mbox{\hyperlink{class_complex_number}{ComplexNumber}} round() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(custom\_round<R>(get\_real()), custom\_round<I>(get\_imag()));\};}
+\DoxyCodeLine{325     \mbox{\hyperlink{class_complex_number}{ComplexNumber}} ceil() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(custom\_ceil<R>(get\_real()), custom\_ceil<I>(get\_imag()));\};}
+\DoxyCodeLine{326     \mbox{\hyperlink{class_complex_number}{ComplexNumber}} floor() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber}}(custom\_floor<R>(get\_real()), custom\_floor<I>(get\_imag()));\};}
+\DoxyCodeLine{327 }
+\DoxyCodeLine{328 \};}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{330 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{331 \textcolor{keyword}{struct }\mbox{\hyperlink{structis__complex}{is\_complex}} : std::false\_type \{\};}
+\DoxyCodeLine{332 }
+\DoxyCodeLine{333 \textcolor{keyword}{template}<RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{334 \textcolor{keyword}{struct }\mbox{\hyperlink{structis__complex}{is\_complex}}<\mbox{\hyperlink{class_complex_number}{ComplexNumber}}<T, K>> : std::true\_type \{\};}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336 \textcolor{keyword}{template}<RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{337 \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>}} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>::operator-\/}}() \{}
+\DoxyCodeLine{338     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>}}(-\/get\_real(), -\/get\_imag());}
+\DoxyCodeLine{339 \}}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342 \textcolor{keyword}{template}<RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{343 \textcolor{keyword}{const} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>}} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>::operator++}}(\textcolor{keywordtype}{int}) \&\{}
+\DoxyCodeLine{344     \mbox{\hyperlink{class_rational_number}{RationalNumber}} old\_val(*\textcolor{keyword}{this});}
+\DoxyCodeLine{345     *\textcolor{keyword}{this} = old\_val + 1;}
+\DoxyCodeLine{346     \textcolor{keywordflow}{return} old\_val;}
+\DoxyCodeLine{347 \}}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349 \textcolor{keyword}{template}<RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{350 \textcolor{keyword}{const} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>}} \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>::operator-\/-\/}}(\textcolor{keywordtype}{int}) \&\{}
+\DoxyCodeLine{351     \mbox{\hyperlink{class_rational_number}{RationalNumber}} old\_val(*\textcolor{keyword}{this});}
+\DoxyCodeLine{352     *\textcolor{keyword}{this} = old\_val -\/ 1;}
+\DoxyCodeLine{353     \textcolor{keywordflow}{return} old\_val;}
+\DoxyCodeLine{354 \}}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356 \textcolor{keyword}{template}<RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{357 std::string \mbox{\hyperlink{class_complex_number}{ComplexNumber<R,I>::to\_string}}()\{}
+\DoxyCodeLine{358     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}("{}} + num\_to\_string<R>(number.first) + \textcolor{stringliteral}{"{}, "{}} + num\_to\_string<I>(number.second) + \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{359 \}}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{361 \textcolor{keyword}{template}<RatNumeric R, RatNumeric I>}
+\DoxyCodeLine{362 std::ostream\& operator<<(std::ostream\& os, \mbox{\hyperlink{class_complex_number}{ComplexNumber<R, I>}} number) \{}
+\DoxyCodeLine{363     os << number.to\_string();}
+\DoxyCodeLine{364     \textcolor{keywordflow}{return} os;}
+\DoxyCodeLine{365 \}}
+\DoxyCodeLine{366 }
+\DoxyCodeLine{367 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K, RatNumeric L>}
+\DoxyCodeLine{368 \textcolor{keyword}{auto} operator+(T num, \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}} other\_num)}
+\DoxyCodeLine{369 \{}
+\DoxyCodeLine{370     \textcolor{keywordflow}{return} other\_num + num;}
+\DoxyCodeLine{371 \}}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K, RatNumeric L>}
+\DoxyCodeLine{374 \textcolor{keyword}{auto} operator-\/(T num, \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}} other\_num)}
+\DoxyCodeLine{375 \{}
+\DoxyCodeLine{376     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}}(other\_num) -\/ num;}
+\DoxyCodeLine{377 \}}
+\DoxyCodeLine{378 }
+\DoxyCodeLine{379 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K, RatNumeric L>}
+\DoxyCodeLine{380 \textcolor{keyword}{auto} operator*(T num, \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}} other\_num)}
+\DoxyCodeLine{381 \{}
+\DoxyCodeLine{382     \textcolor{keywordflow}{return} other\_num*num;}
+\DoxyCodeLine{383 \}}
+\DoxyCodeLine{384 }
+\DoxyCodeLine{385 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K, RatNumeric L>}
+\DoxyCodeLine{386 \textcolor{keyword}{auto} operator/(T num, \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}} other\_num)}
+\DoxyCodeLine{387 \{}
+\DoxyCodeLine{388     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_complex_number}{ComplexNumber<K, L>}}(other\_num)/num;}
+\DoxyCodeLine{389 \}}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{391 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (\mbox{\hyperlink{structis__complex}{is\_complex<T>::value}})}
+\DoxyCodeLine{392 T string\_to\_num(\textcolor{keyword}{const} std::string\& num)}
+\DoxyCodeLine{393 \{}
+\DoxyCodeLine{394     \textcolor{keywordflow}{return} T(num.c\_str());}
+\DoxyCodeLine{395 \}}
+\DoxyCodeLine{396 }
+\DoxyCodeLine{397 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SALNIKOV\_TASK\_COMPLEX\_H}}
+
+\end{DoxyCode}

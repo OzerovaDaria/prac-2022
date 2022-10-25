@@ -1,0 +1,131 @@
+\hypertarget{class_rational_number}{}\doxysection{Rational\+Number Class Reference}
+\label{class_rational_number}\index{RationalNumber@{RationalNumber}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rational_number_a8b9ab88430ac1c5f48b80857f3e741e0}\label{class_rational_number_a8b9ab88430ac1c5f48b80857f3e741e0}} 
+{\bfseries Rational\+Number} (const \mbox{\hyperlink{classlong__number}{long\+\_\+number}} \&int\+\_\+num)
+\item 
+\mbox{\Hypertarget{class_rational_number_a5b214bd83099bd43955373039f5596a1}\label{class_rational_number_a5b214bd83099bd43955373039f5596a1}} 
+{\bfseries Rational\+Number} (const \mbox{\hyperlink{classlong__number}{long\+\_\+number}} \&numerator, const \mbox{\hyperlink{classlong__number}{long\+\_\+number}} \&denominator)
+\item 
+\mbox{\Hypertarget{class_rational_number_a33e864652a5739110fef7b78e25b972c}\label{class_rational_number_a33e864652a5739110fef7b78e25b972c}} 
+{\bfseries Rational\+Number} (const std\+::string \&numerator, const std\+::string \&denominator)
+\item 
+\mbox{\Hypertarget{class_rational_number_ac6eddb41d21d4d719a68554c405d8395}\label{class_rational_number_ac6eddb41d21d4d719a68554c405d8395}} 
+{\bfseries Rational\+Number} (const std\+::string \&some\+\_\+string)
+\item 
+\mbox{\Hypertarget{class_rational_number_ae4124998cabdc8df4769b463bb06c92b}\label{class_rational_number_ae4124998cabdc8df4769b463bb06c92b}} 
+{\footnotesize template$<$typename T $>$ \newline
+requires (std\+::is\+\_\+integral\+\_\+v$<$T$>$)}\\{\bfseries Rational\+Number} (T num)
+\item 
+\mbox{\Hypertarget{class_rational_number_a64034bd00f75448bcf1f17baddbe8afe}\label{class_rational_number_a64034bd00f75448bcf1f17baddbe8afe}} 
+{\footnotesize template$<$num\+Value T, num\+Value K$>$ }\\{\bfseries Rational\+Number} (T num, K den)
+\item 
+\mbox{\Hypertarget{class_rational_number_a0f72b1a8ad42a2b92267042727c36c54}\label{class_rational_number_a0f72b1a8ad42a2b92267042727c36c54}} 
+{\footnotesize template$<$typename T $>$ \newline
+requires (std\+::is\+\_\+floating\+\_\+point\+\_\+v$<$T$>$)}\\{\bfseries Rational\+Number} (T num)
+\item 
+\mbox{\Hypertarget{class_rational_number_a68aae2cf5ae287bd10c963dbf009aa5f}\label{class_rational_number_a68aae2cf5ae287bd10c963dbf009aa5f}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries make\+\_\+canonical} ()
+\item 
+\mbox{\Hypertarget{class_rational_number_a0cfaeeb4c9ab762426446773dd231294}\label{class_rational_number_a0cfaeeb4c9ab762426446773dd231294}} 
+Rat\+Num {\bfseries get\+\_\+number} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_ae18797524ed083332a7f20c679ff828c}\label{class_rational_number_ae18797524ed083332a7f20c679ff828c}} 
+\mbox{\hyperlink{classlong__number}{long\+\_\+number}} {\bfseries get\+\_\+numerator} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_a2aca7cd5abd643bcae0b17f6830147a8}\label{class_rational_number_a2aca7cd5abd643bcae0b17f6830147a8}} 
+\mbox{\hyperlink{classlong__number}{long\+\_\+number}} {\bfseries get\+\_\+denominator} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_aae8122756320f0a9e4be45ca165c369a}\label{class_rational_number_aae8122756320f0a9e4be45ca165c369a}} 
+std\+::string {\bfseries to\+\_\+string} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_aa09348d3a432d88e7e70985230a9b51d}\label{class_rational_number_aa09348d3a432d88e7e70985230a9b51d}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator+} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a6439070e3975f5f851da7d14774251db}\label{class_rational_number_a6439070e3975f5f851da7d14774251db}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator-\/} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_a7bb700749df9e9d3cb7e86f85051211d}\label{class_rational_number_a7bb700749df9e9d3cb7e86f85051211d}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator-\/} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a7d4a8dd8b436aa4a0b03920ff2230af4}\label{class_rational_number_a7d4a8dd8b436aa4a0b03920ff2230af4}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator$\ast$} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_ad536322afed4fdaf2705f99efa932d09}\label{class_rational_number_ad536322afed4fdaf2705f99efa932d09}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator/} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a66bdb2877d1ed16bdebc63485a0f412b}\label{class_rational_number_a66bdb2877d1ed16bdebc63485a0f412b}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries round} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_a9c795aece4132b4b3f7f27a0a6863571}\label{class_rational_number_a9c795aece4132b4b3f7f27a0a6863571}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries floor} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_aa732075359817b4825929a1d16b11cbd}\label{class_rational_number_aa732075359817b4825929a1d16b11cbd}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries ceil} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_a8e39e1d52194121cc522ef7a3d237c31}\label{class_rational_number_a8e39e1d52194121cc522ef7a3d237c31}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator++} ()
+\item 
+\mbox{\Hypertarget{class_rational_number_a2d0e1387eaf56d5296ad2fe5c36c4a5e}\label{class_rational_number_a2d0e1387eaf56d5296ad2fe5c36c4a5e}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator++} (int) \&
+\item 
+\mbox{\Hypertarget{class_rational_number_a149848c1c2031b112f1dabd169769f4d}\label{class_rational_number_a149848c1c2031b112f1dabd169769f4d}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator-\/-\/} ()
+\item 
+\mbox{\Hypertarget{class_rational_number_a013981210c2785df32bf6daed4600b08}\label{class_rational_number_a013981210c2785df32bf6daed4600b08}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries operator-\/-\/} (int) \&
+\item 
+\mbox{\Hypertarget{class_rational_number_ad75b563cc0241d125466292cb9bef600}\label{class_rational_number_ad75b563cc0241d125466292cb9bef600}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} {\bfseries abs} () const
+\item 
+\mbox{\Hypertarget{class_rational_number_ae65670a843644bcb5e340629bea23772}\label{class_rational_number_ae65670a843644bcb5e340629bea23772}} 
+bool {\bfseries operator$<$} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_ac5c98183ab34adcb2db31ea27ad4424b}\label{class_rational_number_ac5c98183ab34adcb2db31ea27ad4424b}} 
+bool {\bfseries operator$<$=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a50026e770a2345e57a81e088d238096c}\label{class_rational_number_a50026e770a2345e57a81e088d238096c}} 
+bool {\bfseries operator$>$} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a0fde7317996cca9d38d6bc7e0ea9efb3}\label{class_rational_number_a0fde7317996cca9d38d6bc7e0ea9efb3}} 
+bool {\bfseries operator$>$=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_aaf073c62b07650692990282150619f33}\label{class_rational_number_aaf073c62b07650692990282150619f33}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a85852a2aba723f5f69974eeee50bc3db}\label{class_rational_number_a85852a2aba723f5f69974eeee50bc3db}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num) const
+\item 
+\mbox{\Hypertarget{class_rational_number_a909eece2cb7d07165e68acd369b8fd39}\label{class_rational_number_a909eece2cb7d07165e68acd369b8fd39}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num)=default
+\item 
+\mbox{\Hypertarget{class_rational_number_a2edf317635fa872e1f74747586f7eebe}\label{class_rational_number_a2edf317635fa872e1f74747586f7eebe}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator+=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num)
+\item 
+\mbox{\Hypertarget{class_rational_number_ae263617bd9bcd549546d276cdb05b368}\label{class_rational_number_ae263617bd9bcd549546d276cdb05b368}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator-\/=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num)
+\item 
+\mbox{\Hypertarget{class_rational_number_a3ce54c2a589c87d0fa5dddac4718e913}\label{class_rational_number_a3ce54c2a589c87d0fa5dddac4718e913}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator$\ast$=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num)
+\item 
+\mbox{\Hypertarget{class_rational_number_aa1c35d0a4a5e6c0cb46f016b3c4cfd53}\label{class_rational_number_aa1c35d0a4a5e6c0cb46f016b3c4cfd53}} 
+\mbox{\hyperlink{class_rational_number}{Rational\+Number}} \& {\bfseries operator/=} (const \mbox{\hyperlink{class_rational_number}{Rational\+Number}} \&num)
+\item 
+\mbox{\Hypertarget{class_rational_number_a620ee665a14ed0a71298de4f501112cb}\label{class_rational_number_a620ee665a14ed0a71298de4f501112cb}} 
+{\footnotesize template$<$typename T $>$ \newline
+requires (std\+::is\+\_\+integral\+\_\+v$<$T$>$)}\\{\bfseries operator T} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rational_number_a22e6c7407d2916caa38fb3962c537c6c}\label{class_rational_number_a22e6c7407d2916caa38fb3962c537c6c}} 
+static std\+::pair$<$ std\+::string, std\+::string $>$ {\bfseries float\+\_\+to\+\_\+string} (const std\+::string \&floating\+\_\+string)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Numbers/Rational.\+h\item 
+Numbers/Rational.\+cpp\end{DoxyCompactItemize}

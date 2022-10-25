@@ -1,0 +1,174 @@
+\hypertarget{_rational_8h_source}{}\doxysection{Rational.\+h}
+\label{_rational_8h_source}\index{Numbers/Rational.h@{Numbers/Rational.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include "{}long\_number.h"{}}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef SALNIKOV\_TASK\_RATIONAL\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define SALNIKOV\_TASK\_RATIONAL\_H}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{7 \textcolor{keyword}{concept }numValue = std::is\_integral\_v<T> || std::is\_same\_v<T, long\_number> ||}
+\DoxyCodeLine{8 std::is\_same\_v<T, std::string> || std::is\_same\_v<T, const char*>;}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{class_rational_number}{RationalNumber}};}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{13 \textcolor{keyword}{concept }Custom = std::is\_same\_v<T, long\_number> || std::is\_same\_v<T, RationalNumber>;}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{classhas__frac__part}{has\_frac\_part}} : \textcolor{keyword}{public} std::exception}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     std::string error\_msg;}
+\DoxyCodeLine{18     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num\_to\_transform;}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{comment}{//has\_frac\_part() = default;}}
+\DoxyCodeLine{21     \textcolor{keyword}{explicit} \mbox{\hyperlink{classhas__frac__part}{has\_frac\_part}}(\mbox{\hyperlink{class_rational_number}{RationalNumber}} \&num);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     [[nodiscard]] \textcolor{keyword}{const} \textcolor{keywordtype}{char} * what () \textcolor{keyword}{const} \textcolor{keyword}{noexcept} \textcolor{keyword}{override};}
+\DoxyCodeLine{24     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& get\_number() \{\textcolor{keywordflow}{return} num\_to\_transform;\}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \};}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{class }\mbox{\hyperlink{class_rational_number}{RationalNumber}}}
+\DoxyCodeLine{29 \{}
+\DoxyCodeLine{30     RatNum number;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \mbox{\hyperlink{class_rational_number}{RationalNumber}}() : number(0, 1) \{\};}
+\DoxyCodeLine{35     \mbox{\hyperlink{class_rational_number}{RationalNumber}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& int\_num) : number(int\_num, 1) \{\};}
+\DoxyCodeLine{36     \mbox{\hyperlink{class_rational_number}{RationalNumber}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& numerator, \textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& denominator);}
+\DoxyCodeLine{37     \mbox{\hyperlink{class_rational_number}{RationalNumber}}(\textcolor{keyword}{const} std::string\& numerator, \textcolor{keyword}{const} std::string\& denominator);}
+\DoxyCodeLine{38     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(\textcolor{keyword}{const} std::string\& some\_string);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T>)}
+\DoxyCodeLine{41     \mbox{\hyperlink{class_rational_number}{RationalNumber}}(T num) : number(num, 1) \{\};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{keyword}{template} <numValue T, numValue K>}
+\DoxyCodeLine{44     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(T num, K den) : number(num, den) \{make\_canonical();\};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{keyword}{static} std::pair<std::string, std::string> float\_to\_string(\textcolor{keyword}{const} std::string\& floating\_string);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_floating\_point\_v<T>)}
+\DoxyCodeLine{49     \mbox{\hyperlink{class_rational_number}{RationalNumber}}(T num)}
+\DoxyCodeLine{50     \{}
+\DoxyCodeLine{51         std::string floating\_string = std::to\_string(num);}
+\DoxyCodeLine{52         number = RatNum(float\_to\_string(floating\_string));}
+\DoxyCodeLine{53         make\_canonical();}
+\DoxyCodeLine{54     \}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \mbox{\hyperlink{class_rational_number}{RationalNumber}} make\_canonical();}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     [[nodiscard]] RatNum get\_number()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} number;\}}
+\DoxyCodeLine{59     [[nodiscard]] \mbox{\hyperlink{classlong__number}{long\_number}} get\_numerator()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} number.first;\}}
+\DoxyCodeLine{60     [[nodiscard]] \mbox{\hyperlink{classlong__number}{long\_number}} get\_denominator()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} number.second;\}}
+\DoxyCodeLine{61     [[nodiscard]] std::string to\_string()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}<"{}} + number.first.to\_string()+}
+\DoxyCodeLine{62                 (number.second != 1 ? (\textcolor{stringliteral}{"{}/"{}} + number.second.to\_string()) : \textcolor{stringliteral}{"{}"{}}) + \textcolor{stringliteral}{"{}>"{}};\}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator+(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{66     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator-\/() \textcolor{keyword}{const};}
+\DoxyCodeLine{67     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator-\/(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{68     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator*(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{69     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator/(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{70     \mbox{\hyperlink{class_rational_number}{RationalNumber}} round() \textcolor{keyword}{const};}
+\DoxyCodeLine{71     \mbox{\hyperlink{class_rational_number}{RationalNumber}} floor() \textcolor{keyword}{const};}
+\DoxyCodeLine{72     \mbox{\hyperlink{class_rational_number}{RationalNumber}} ceil() \textcolor{keyword}{const};}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator++() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + 1;\}}
+\DoxyCodeLine{76     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator++(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{77     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator-\/-\/() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ 1;\}}
+\DoxyCodeLine{78     \mbox{\hyperlink{class_rational_number}{RationalNumber}} operator-\/-\/(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80     \mbox{\hyperlink{class_rational_number}{RationalNumber}} abs()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(number.first.abs(), number.second.abs());\}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82     \textcolor{keywordtype}{bool} operator<(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{83     \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{84     \textcolor{keywordtype}{bool} operator>(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{85     \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{86     \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{87     \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator= (\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator +=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + num;\}}
+\DoxyCodeLine{92     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator -\/=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ num;\}}
+\DoxyCodeLine{93     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator *=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} * num;\}}
+\DoxyCodeLine{94     \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& operator /=(\textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} / num;\}}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T>)}
+\DoxyCodeLine{97     \textcolor{keyword}{explicit} \textcolor{keyword}{operator} T()}
+\DoxyCodeLine{98     \{}
+\DoxyCodeLine{99         make\_canonical();}
+\DoxyCodeLine{100         \textcolor{keywordflow}{if} (number.second != 1)}
+\DoxyCodeLine{101             \textcolor{keywordflow}{throw} \mbox{\hyperlink{classhas__frac__part}{has\_frac\_part}}(*\textcolor{keyword}{this});}
+\DoxyCodeLine{102         \textcolor{keywordflow}{return} (T)number.first;}
+\DoxyCodeLine{103     \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, Custom K> \textcolor{keyword}{requires} (std::is\_integral\_v<T> ||}
+\DoxyCodeLine{110         ((std::is\_same\_v<T, long\_number> || std::is\_floating\_point\_v<T>) \&\& std::is\_same\_v<K, RationalNumber>))}
+\DoxyCodeLine{111 K \textcolor{keyword}{operator}+(T first\_num, K second\_num)}
+\DoxyCodeLine{112 \{}
+\DoxyCodeLine{113     \textcolor{keywordflow}{return} second\_num + first\_num;}
+\DoxyCodeLine{114 \}}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, Custom K> \textcolor{keyword}{requires} (std::is\_integral\_v<T> ||}
+\DoxyCodeLine{117         ((std::is\_same\_v<T, long\_number> || std::is\_floating\_point\_v<T>) \&\& std::is\_same\_v<K, RationalNumber>))}
+\DoxyCodeLine{118 K \textcolor{keyword}{operator}-\/(T first\_num, K second\_num)}
+\DoxyCodeLine{119 \{}
+\DoxyCodeLine{120     \textcolor{keywordflow}{return} K(first\_num) -\/ second\_num;}
+\DoxyCodeLine{121 \}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, Custom K> \textcolor{keyword}{requires} (std::is\_integral\_v<T> ||}
+\DoxyCodeLine{124         ((std::is\_same\_v<T, long\_number> || std::is\_floating\_point\_v<T>) \&\& std::is\_same\_v<K, RationalNumber>))}
+\DoxyCodeLine{125 K \textcolor{keyword}{operator}*(T first\_num, K second\_num)}
+\DoxyCodeLine{126 \{}
+\DoxyCodeLine{127     \textcolor{keywordflow}{return} second\_num*first\_num;}
+\DoxyCodeLine{128 \}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, Custom K> \textcolor{keyword}{requires} (std::is\_integral\_v<T> ||}
+\DoxyCodeLine{131         ((std::is\_same\_v<T, long\_number> || std::is\_floating\_point\_v<T>) \&\& std::is\_same\_v<K, RationalNumber>))}
+\DoxyCodeLine{132 K \textcolor{keyword}{operator}/(T first\_num, K second\_num)}
+\DoxyCodeLine{133 \{}
+\DoxyCodeLine{134     \textcolor{keywordflow}{return} K(first\_num)/second\_num;}
+\DoxyCodeLine{135 \}}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_same\_v<T, long\_number> \&\& std::is\_floating\_point\_v<K>) ||}
+\DoxyCodeLine{138                                             (std::is\_same\_v<K, long\_number> \&\& std::is\_floating\_point\_v<T>))}
+\DoxyCodeLine{139 \mbox{\hyperlink{class_rational_number}{RationalNumber}} \textcolor{keyword}{operator}+(T first\_num, K second\_num)}
+\DoxyCodeLine{140 \{}
+\DoxyCodeLine{141     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) + \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{142 \}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_same\_v<T, long\_number> \&\& std::is\_floating\_point\_v<K>) ||}
+\DoxyCodeLine{145                                             (std::is\_same\_v<K, long\_number> \&\& std::is\_floating\_point\_v<T>))}
+\DoxyCodeLine{146 \mbox{\hyperlink{class_rational_number}{RationalNumber}} \textcolor{keyword}{operator}-\/(T first\_num, K second\_num)}
+\DoxyCodeLine{147 \{}
+\DoxyCodeLine{148     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) -\/ \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{149 \}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_same\_v<T, long\_number> \&\& std::is\_floating\_point\_v<K>) ||}
+\DoxyCodeLine{152                                             (std::is\_same\_v<K, long\_number> \&\& std::is\_floating\_point\_v<T>))}
+\DoxyCodeLine{153 \mbox{\hyperlink{class_rational_number}{RationalNumber}} \textcolor{keyword}{operator}*(T first\_num, K second\_num)}
+\DoxyCodeLine{154 \{}
+\DoxyCodeLine{155     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) * \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{156 \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_same\_v<T, long\_number> \&\& std::is\_floating\_point\_v<K>) ||}
+\DoxyCodeLine{159                                             (std::is\_same\_v<K, long\_number> \&\& std::is\_floating\_point\_v<T>))}
+\DoxyCodeLine{160 \mbox{\hyperlink{class_rational_number}{RationalNumber}} \textcolor{keyword}{operator}/(T first\_num, K second\_num)}
+\DoxyCodeLine{161 \{}
+\DoxyCodeLine{162     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) / \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{163 \}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 std::ostream\& operator<<(std::ostream\& os, \textcolor{keyword}{const} \mbox{\hyperlink{class_rational_number}{RationalNumber}}\& number);}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SALNIKOV\_TASK\_RATIONAL\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,415 @@
+\hypertarget{_vector_8h_source}{}\doxysection{Vector.\+h}
+\label{_vector_8h_source}\index{Matrix/Vector.h@{Matrix/Vector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SALNIKOV\_TASK\_VECTOR\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SALNIKOV\_TASK\_VECTOR\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}../Numbers/ComplexNumber.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}../parsing/parsing.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{template} <\textcolor{keyword}{typename} K>}
+\DoxyCodeLine{11 \textcolor{keyword}{concept }AnyNum = RatNumeric<K> || \mbox{\hyperlink{structis__complex}{is\_complex<K>::value}};}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{template} <RatNumeric T, RatNumeric K>}
+\DoxyCodeLine{15 \mbox{\hyperlink{class_rational_number}{RationalNumber}} abs(\mbox{\hyperlink{class_complex_number}{ComplexNumber<T, K>}} num)}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keywordflow}{return} num.abs();}
+\DoxyCodeLine{18 \}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{template} <Custom T>}
+\DoxyCodeLine{21 T abs(T num)}
+\DoxyCodeLine{22 \{}
+\DoxyCodeLine{23   \textcolor{keywordflow}{return} num > 0 ?  num : num.abs();}
+\DoxyCodeLine{24 \}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{27 T abs(T num)}
+\DoxyCodeLine{28 \{}
+\DoxyCodeLine{29     \textcolor{keywordflow}{return} num > 0 ? num : -\/num;}
+\DoxyCodeLine{30 \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{template} <AnyNum T> \textcolor{keyword}{requires} (!std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{33 std::string string\_transform(T num)}
+\DoxyCodeLine{34 \{}
+\DoxyCodeLine{35     \textcolor{keywordflow}{return} num.to\_string();}
+\DoxyCodeLine{36 \}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{template} <AnyNum T> \textcolor{keyword}{requires} (std::is\_arithmetic\_v<T>)}
+\DoxyCodeLine{39 std::string string\_transform(T num)}
+\DoxyCodeLine{40 \{}
+\DoxyCodeLine{41     \textcolor{keywordflow}{return} std::to\_string(num);}
+\DoxyCodeLine{42 \}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{template} <AnyNum T>}
+\DoxyCodeLine{45 \textcolor{keyword}{class }\mbox{\hyperlink{class_vector}{Vector}} \{}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{keyword}{using }sparse\_nums = std::map<nat\_num, T>;}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     nat\_num vec\_size = 0, last\_zero\_pose = 0;}
+\DoxyCodeLine{50     \textcolor{keywordtype}{double} eps = 0.0;}
+\DoxyCodeLine{51     sparse\_nums nums;}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keyword}{public}:}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_vector}{Vector}}(nat\_num v\_siz = 100, \textcolor{keywordtype}{double} cur\_ep = 0.01, sparse\_nums cur\_nums = sparse\_nums()) :}
+\DoxyCodeLine{56                                                 vec\_size(v\_siz), eps(cur\_ep), nums(cur\_nums) \{\};}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     sparse\_nums get\_numbers() \{\textcolor{keywordflow}{return} nums;\}}
+\DoxyCodeLine{59     nat\_num get\_size() \{\textcolor{keywordflow}{return} vec\_size;\}}
+\DoxyCodeLine{60     \textcolor{keywordtype}{double} get\_eps() \{\textcolor{keywordflow}{return} eps;\}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} set\_size(nat\_num new\_size) \{vec\_size = new\_size;\}}
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} set\_eps(\textcolor{keywordtype}{double} new\_eps) \{eps = new\_eps;\}}
+\DoxyCodeLine{64     \textcolor{keywordtype}{void} clear\_nums() \{nums.clear();\}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_vector}{Vector}}(T def\_val, nat\_num v\_siz = 100, \textcolor{keywordtype}{double} cur\_ep = 0.01) :}
+\DoxyCodeLine{67             vec\_size(v\_siz), eps(cur\_ep)}
+\DoxyCodeLine{68     \{}
+\DoxyCodeLine{69         \textcolor{keywordflow}{if} (def\_val > eps)}
+\DoxyCodeLine{70             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < vec\_size; i++)}
+\DoxyCodeLine{71                 nums[i] = def\_val;}
+\DoxyCodeLine{72     \};}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     \mbox{\hyperlink{class_vector}{Vector}}(\textcolor{keyword}{const} std::string\& filename)}
+\DoxyCodeLine{75     \{}
+\DoxyCodeLine{76         std::ifstream in(filename);}
+\DoxyCodeLine{77         std::string buffer;}
+\DoxyCodeLine{78         std::getline(in, buffer);}
+\DoxyCodeLine{79         buffer = clean\_string(buffer);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81         \textcolor{keywordflow}{while} (buffer.empty())}
+\DoxyCodeLine{82         \{}
+\DoxyCodeLine{83             std::getline(in, buffer);}
+\DoxyCodeLine{84             buffer = clean\_string(buffer);}
+\DoxyCodeLine{85         \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87         \textcolor{keyword}{auto} vec\_pos = buffer.find(\textcolor{stringliteral}{"{}vector"{}});}
+\DoxyCodeLine{88         \textcolor{keyword}{auto} type\_name\_len = std::string(\textcolor{stringliteral}{"{}vector"{}}).length();}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90         \textcolor{keywordflow}{if} (vec\_pos == std::string::npos)}
+\DoxyCodeLine{91             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}Bad input"{}});}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93         buffer = clean\_string(buffer.substr(vec\_pos+type\_name\_len));}
+\DoxyCodeLine{94         vec\_size = std::stoull(buffer);}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96         \textcolor{keywordflow}{while} (std::getline(in, buffer))}
+\DoxyCodeLine{97         \{}
+\DoxyCodeLine{98             buffer = clean\_string(buffer);}
+\DoxyCodeLine{99             \textcolor{keywordflow}{if} (buffer.empty())}
+\DoxyCodeLine{100                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102             \textcolor{keyword}{auto} check = extract\_nat\_num(buffer);}
+\DoxyCodeLine{103             \textcolor{keyword}{auto} num\_pos = check.first;}
+\DoxyCodeLine{104             buffer = clean\_string(buffer.substr(check.second));}
+\DoxyCodeLine{105             nat\_num start\_pos, end\_pos;}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107             \textcolor{keywordflow}{if} (std::is\_same\_v<T, RationalNumber>)}
+\DoxyCodeLine{108             \{}
+\DoxyCodeLine{109                 start\_pos = buffer.find(\textcolor{charliteral}{'<'});}
+\DoxyCodeLine{110                 end\_pos = buffer.find(\textcolor{charliteral}{'>'}) + 1;}
+\DoxyCodeLine{111             \}}
+\DoxyCodeLine{112             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{structis__complex}{is\_complex<T>::value}})}
+\DoxyCodeLine{113             \{}
+\DoxyCodeLine{114                 start\_pos = buffer.find(\textcolor{charliteral}{'('});}
+\DoxyCodeLine{115                 end\_pos = buffer.find(\textcolor{charliteral}{')'}) + 1;}
+\DoxyCodeLine{116             \}}
+\DoxyCodeLine{117             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{118             \{}
+\DoxyCodeLine{119                 \textcolor{keywordflow}{if} (((std::find(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) != buffer.begin()) \&\&}
+\DoxyCodeLine{120                      std::find(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) != buffer.end()) ||}
+\DoxyCodeLine{121                     (std::count(buffer.begin(), buffer.end(), \textcolor{charliteral}{'.'}) > 1) ||}
+\DoxyCodeLine{122                     (std::count(buffer.begin(), buffer.end(), \textcolor{charliteral}{'-\/'}) > 1))}
+\DoxyCodeLine{123                     \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}IDIOT!!!"{}});}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125                 start\_pos = buffer.find\_first\_of(\textcolor{stringliteral}{"{}0123456789-\/"{}});}
+\DoxyCodeLine{126                 end\_pos = buffer.find\_first\_not\_of(\textcolor{stringliteral}{"{}0123456789.-\/"{}});}
+\DoxyCodeLine{127             \}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129             \textcolor{keyword}{auto} need\_num = buffer.substr(start\_pos, end\_pos);}
+\DoxyCodeLine{130             add\_number(num\_pos, string\_to\_num<T>(need\_num));}
+\DoxyCodeLine{131         \}}
+\DoxyCodeLine{132         in.close();}
+\DoxyCodeLine{133     \}}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{136     \mbox{\hyperlink{class_vector}{Vector}}(\mbox{\hyperlink{class_vector}{Vector<K>}}\& other)}
+\DoxyCodeLine{137     \{}
+\DoxyCodeLine{138         vec\_size = other.get\_size();}
+\DoxyCodeLine{139         eps = other.get\_eps();}
+\DoxyCodeLine{140         nums.clear();}
+\DoxyCodeLine{141         \textcolor{keyword}{auto} other\_map = other.get\_numbers();}
+\DoxyCodeLine{142         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{143             add\_number(it-\/>first, T(it-\/>second));}
+\DoxyCodeLine{144     \}}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146     \mbox{\hyperlink{class_vector}{Vector}} (\textcolor{keyword}{const} \mbox{\hyperlink{class_vector}{Vector}}\& other)}
+\DoxyCodeLine{147     \{}
+\DoxyCodeLine{148         vec\_size = other.get\_size();}
+\DoxyCodeLine{149         eps = other.get\_eps();}
+\DoxyCodeLine{150         nums.clear();}
+\DoxyCodeLine{151         \textcolor{keyword}{auto} other\_map = other.get\_numbers();}
+\DoxyCodeLine{152         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{153             add\_number(it-\/>first, it-\/>second);}
+\DoxyCodeLine{154     \}}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156     \mbox{\hyperlink{class_vector}{Vector}}(\mbox{\hyperlink{class_vector}{Vector}}\&\& other) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{157     \{}
+\DoxyCodeLine{158         other.last\_zero\_remove();}
+\DoxyCodeLine{159         \textcolor{keywordflow}{if} (\&other != \textcolor{keyword}{this}) \{}
+\DoxyCodeLine{160             vec\_size = other.vec\_size;}
+\DoxyCodeLine{161             other.vec\_size = 0;}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163             eps = other.eps;}
+\DoxyCodeLine{164             other.eps = 0;}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166             other.last\_zero\_pose = 0;}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168             nums = std::move(other.nums);}
+\DoxyCodeLine{169         \}}
+\DoxyCodeLine{170     \}}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{173     \textcolor{keywordtype}{void} add\_number(nat\_num pos, K val) \{}
+\DoxyCodeLine{174         \textcolor{keywordflow}{if} (abs(val) >= (\mbox{\hyperlink{structis__complex}{is\_complex<K>::value}} ? eps*eps : eps))}
+\DoxyCodeLine{175             nums[pos] = val;}
+\DoxyCodeLine{176         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nums.find(pos) != nums.end())}
+\DoxyCodeLine{177             nums.erase(pos);}
+\DoxyCodeLine{178     \}}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     \textcolor{keywordtype}{void} zeros\_erase()}
+\DoxyCodeLine{181     \{}
+\DoxyCodeLine{182         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(), last = nums.end(); it != last; ) \{}
+\DoxyCodeLine{183             \textcolor{keywordflow}{if} (it-\/>second == 0) \{}
+\DoxyCodeLine{184                 it = nums.erase(it);}
+\DoxyCodeLine{185             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{186                 it++;}
+\DoxyCodeLine{187             \}}
+\DoxyCodeLine{188         \}}
+\DoxyCodeLine{189     \}}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191     \textcolor{keywordtype}{void} zero\_remove(nat\_num pos)}
+\DoxyCodeLine{192     \{}
+\DoxyCodeLine{193         \textcolor{keywordflow}{if} ((nums.find(pos) != nums.end()) \&\& (nums[pos] == T(0)))}
+\DoxyCodeLine{194             nums.erase(pos);}
+\DoxyCodeLine{195     \}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197     \textcolor{keywordtype}{void} last\_zero\_remove()}
+\DoxyCodeLine{198     \{}
+\DoxyCodeLine{199         zero\_remove(last\_zero\_pose);}
+\DoxyCodeLine{200     \}}
+\DoxyCodeLine{201 }
+\DoxyCodeLine{202     T\& operator()(nat\_num pos)}
+\DoxyCodeLine{203     \{}
+\DoxyCodeLine{204         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{205         last\_zero\_remove();}
+\DoxyCodeLine{206         \textcolor{keywordflow}{if} (pos > vec\_size)}
+\DoxyCodeLine{207             \textcolor{keywordflow}{throw} std::logic\_error(\textcolor{stringliteral}{"{}What are you requesting?!"{}});}
+\DoxyCodeLine{208         \textcolor{keywordflow}{if} (nums.find(pos) != nums.end())}
+\DoxyCodeLine{209             \textcolor{keywordflow}{return} nums[pos];}
+\DoxyCodeLine{210         nums[pos] = 0;}
+\DoxyCodeLine{211         last\_zero\_pose = pos;}
+\DoxyCodeLine{212         \textcolor{keywordflow}{return} nums[pos];}
+\DoxyCodeLine{213     \}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{216     \mbox{\hyperlink{class_vector}{Vector}}\& operator=(\mbox{\hyperlink{class_vector}{Vector<K>}} other\_vec) \textcolor{keyword}{requires} (!std::is\_same\_v<T, K>)}
+\DoxyCodeLine{217     \{}
+\DoxyCodeLine{218         eps = other\_vec.get\_eps();}
+\DoxyCodeLine{219         vec\_size = other\_vec.get\_size();}
+\DoxyCodeLine{220         \textcolor{keyword}{auto} copy\_map = other\_vec.get\_numbers();}
+\DoxyCodeLine{221         nums.clear();}
+\DoxyCodeLine{222         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = copy\_map.begin(); it != copy\_map.end(); it++)}
+\DoxyCodeLine{223             add\_number(it-\/>first, T(it-\/>second));}
+\DoxyCodeLine{224         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{225     \}}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227     \mbox{\hyperlink{class_vector}{Vector}}\& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector}{Vector}}\& other\_vec)}
+\DoxyCodeLine{228     \{}
+\DoxyCodeLine{229         eps = other\_vec.get\_eps();}
+\DoxyCodeLine{230         vec\_size = other\_vec.get\_size();}
+\DoxyCodeLine{231         \textcolor{keyword}{auto} copy\_map = other\_vec.get\_numbers();}
+\DoxyCodeLine{232         nums.clear();}
+\DoxyCodeLine{233         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = copy\_map.begin(); it != copy\_map.end(); it++)}
+\DoxyCodeLine{234             add\_number(it-\/>first, it-\/>second);}
+\DoxyCodeLine{235         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{236     \}}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238     \mbox{\hyperlink{class_vector}{Vector}}\& operator=(\mbox{\hyperlink{class_vector}{Vector}}\&\& other\_vec) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{239     \{}
+\DoxyCodeLine{240         other\_vec.last\_zero\_remove();}
+\DoxyCodeLine{241         \textcolor{keywordflow}{if} (\&other\_vec != \textcolor{keyword}{this}) \{}
+\DoxyCodeLine{242             eps = other\_vec.get\_eps();}
+\DoxyCodeLine{243             other\_vec.eps = 0;}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245             vec\_size = other\_vec.get\_size();}
+\DoxyCodeLine{246             other\_vec.vec\_size = 0;}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248             other\_vec.last\_zero\_pose = 0;}
+\DoxyCodeLine{249 }
+\DoxyCodeLine{250             nums = std::move(other\_vec.nums);}
+\DoxyCodeLine{251         \}}
+\DoxyCodeLine{252         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{253     \}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{257     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()+K())> \textcolor{keyword}{operator}+(K number)}
+\DoxyCodeLine{258     \{}
+\DoxyCodeLine{259         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()+K())> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{260         res\_vec.nums.clear();}
+\DoxyCodeLine{261         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{262             res\_vec.add\_number(it-\/>first, it-\/>second+number);}
+\DoxyCodeLine{263         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{264     \}}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{267     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()-\/K())> \textcolor{keyword}{operator}-\/(K number)}
+\DoxyCodeLine{268     \{}
+\DoxyCodeLine{269         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()-\/K())> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{270         res\_vec.nums.clear();}
+\DoxyCodeLine{271         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{272             res\_vec.add\_number(it-\/>first, it-\/>second-\/number);}
+\DoxyCodeLine{273         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{274     \}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{277     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()*K())> \textcolor{keyword}{operator}*(K number)}
+\DoxyCodeLine{278     \{}
+\DoxyCodeLine{279         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()*K())> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{280         res\_vec.nums.clear();}
+\DoxyCodeLine{281         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{282             res\_vec.add\_number(it-\/>first, it-\/>second*number);}
+\DoxyCodeLine{283         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{284     \}}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286     \textcolor{keyword}{template} <AnyNum K>}
+\DoxyCodeLine{287     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()/K(1))> \textcolor{keyword}{operator}/(K number)}
+\DoxyCodeLine{288     \{}
+\DoxyCodeLine{289         \textcolor{keywordflow}{if} (number == 0)}
+\DoxyCodeLine{290             \textcolor{keywordflow}{throw} \mbox{\hyperlink{classzero__division__error}{zero\_division\_error}}(RatNum(1, number));}
+\DoxyCodeLine{291         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()/K(1))> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{292         res\_vec.nums.clear();}
+\DoxyCodeLine{293         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{294             res\_vec.add\_number(it-\/>first, it-\/>second/number);}
+\DoxyCodeLine{295         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{296     \}}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298     \mbox{\hyperlink{class_vector}{Vector}} operator-\/()}
+\DoxyCodeLine{299     \{}
+\DoxyCodeLine{300         \mbox{\hyperlink{class_vector}{Vector}} res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{301         res\_vec.nums.clear();}
+\DoxyCodeLine{302         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{303             res\_vec.add\_number(it-\/>first, -\/(it-\/>second));}
+\DoxyCodeLine{304         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{305     \}}
+\DoxyCodeLine{306 }
+\DoxyCodeLine{307     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{308     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()+K())> \textcolor{keyword}{operator}+(\mbox{\hyperlink{class_vector}{Vector<K>}} other\_vec)}
+\DoxyCodeLine{309     \{}
+\DoxyCodeLine{310         last\_zero\_remove();}
+\DoxyCodeLine{311         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()+K())> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{312         \textcolor{keyword}{auto} other\_map = other\_vec.get\_numbers();}
+\DoxyCodeLine{313         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{314             res\_vec.add\_number(it-\/>first,}
+\DoxyCodeLine{315                                \textcolor{keyword}{decltype}(T()+K())(it-\/>second +}
+\DoxyCodeLine{316                                (nums.find(it-\/>first) == nums.end() ? \textcolor{keyword}{decltype}(T()+K())(0) :}
+\DoxyCodeLine{317                                nums[it-\/>first]) ) );}
+\DoxyCodeLine{318         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{319     \}}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321     \textcolor{keyword}{template}<AnyNum K>}
+\DoxyCodeLine{322     \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()-\/K())> \textcolor{keyword}{operator}-\/(\mbox{\hyperlink{class_vector}{Vector<K>}} other\_vec)}
+\DoxyCodeLine{323     \{}
+\DoxyCodeLine{324         last\_zero\_remove();}
+\DoxyCodeLine{325         \textcolor{keywordtype}{int} zero = 0;}
+\DoxyCodeLine{326         \mbox{\hyperlink{class_vector}{Vector}}<\textcolor{keyword}{decltype}(T()-\/K())> res\_vec(*\textcolor{keyword}{this});}
+\DoxyCodeLine{327         \textcolor{keyword}{auto} other\_map = other\_vec.get\_numbers();}
+\DoxyCodeLine{328         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = other\_map.begin(); it != other\_map.end(); it++)}
+\DoxyCodeLine{329             res\_vec.add\_number(it-\/>first,}
+\DoxyCodeLine{330                                \textcolor{keyword}{decltype}(T()-\/K())(-\/it-\/>second +}
+\DoxyCodeLine{331                                (nums.find(it-\/>first) == nums.end() ? \textcolor{keyword}{decltype}(T()-\/K())(0) : nums[it-\/>first])) );}
+\DoxyCodeLine{332         \textcolor{keywordflow}{return} res\_vec;}
+\DoxyCodeLine{333     \}}
+\DoxyCodeLine{334 }
+\DoxyCodeLine{335     std::string to\_string()}
+\DoxyCodeLine{336     \{}
+\DoxyCodeLine{337         last\_zero\_remove();}
+\DoxyCodeLine{338         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{339         std::string res\_string(\textcolor{stringliteral}{"{}vector  "{}} + std::to\_string(vec\_size) + \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{340         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = nums.begin(); it != nums.end(); it++)}
+\DoxyCodeLine{341             res\_string += std::to\_string((*it).first) + \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t"{}} + string\_transform((*it).second) + \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{342         \textcolor{keywordflow}{return} res\_string;}
+\DoxyCodeLine{343     \}}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345     \textcolor{keywordtype}{void} to\_file(\textcolor{keyword}{const} std::string\& filename = \textcolor{stringliteral}{"{}output.txt"{}})}
+\DoxyCodeLine{346     \{}
+\DoxyCodeLine{347         last\_zero\_remove();}
+\DoxyCodeLine{348         \textcolor{comment}{//zeros\_erase();}}
+\DoxyCodeLine{349         std::ofstream out(filename);}
+\DoxyCodeLine{350         \textcolor{keywordflow}{if} (!out) \{}
+\DoxyCodeLine{351             std::cout << \textcolor{stringliteral}{"{}Could not write to file "{}} << filename << std::endl;}
+\DoxyCodeLine{352             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{353         \}}
+\DoxyCodeLine{354         out << *\textcolor{keyword}{this} << std::endl;}
+\DoxyCodeLine{355         out.close();}
+\DoxyCodeLine{356     \}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \};}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360 \textcolor{keyword}{template}<AnyNum T>}
+\DoxyCodeLine{361 std::ostream\& operator<<(std::ostream\& os, \mbox{\hyperlink{class_vector}{Vector<T>}} vec) \{}
+\DoxyCodeLine{362     os << vec.to\_string();}
+\DoxyCodeLine{363     \textcolor{keywordflow}{return} os;}
+\DoxyCodeLine{364 \}}
+\DoxyCodeLine{365 }
+\DoxyCodeLine{366 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{367                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{368 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}>(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{369 \{}
+\DoxyCodeLine{370     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) > \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{371 \}}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{374                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{375 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}<(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{376 \{}
+\DoxyCodeLine{377 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) < \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{378 \}}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{381                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{382 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}>=(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{383 \{}
+\DoxyCodeLine{384 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) >= \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{385 \}}
+\DoxyCodeLine{386 }
+\DoxyCodeLine{387 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{388                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{389 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}==(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{390 \{}
+\DoxyCodeLine{391 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) == \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{392 \}}
+\DoxyCodeLine{393 }
+\DoxyCodeLine{394 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{395                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{396 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}<=(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{397 \{}
+\DoxyCodeLine{398 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) <= \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{399 \}}
+\DoxyCodeLine{400 }
+\DoxyCodeLine{401 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} K> \textcolor{keyword}{requires} ((std::is\_floating\_point\_v<T> \&\& std::is\_same\_v<long\_number, K>) ||}
+\DoxyCodeLine{402                                            (std::is\_floating\_point\_v<K> \&\& std::is\_same\_v<long\_number, T>)   )}
+\DoxyCodeLine{403 \textcolor{keywordtype}{bool} \textcolor{keyword}{operator}!=(\textcolor{keyword}{const} T\& first\_num, K second\_num)}
+\DoxyCodeLine{404 \{}
+\DoxyCodeLine{405 \textcolor{keywordflow}{return} \mbox{\hyperlink{class_rational_number}{RationalNumber}}(first\_num) != \mbox{\hyperlink{class_rational_number}{RationalNumber}}(second\_num);}
+\DoxyCodeLine{406 \}}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408 }
+\DoxyCodeLine{409 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SALNIKOV\_TASK\_VECTOR\_H}}
+
+\end{DoxyCode}

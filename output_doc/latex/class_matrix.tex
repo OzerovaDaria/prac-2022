@@ -1,0 +1,104 @@
+\hypertarget{class_matrix}{}\doxysection{Matrix\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{class_matrix}\index{Matrix$<$ T $>$@{Matrix$<$ T $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_matrix_a6366c5b7374253eb1a29a3f3c2f10902}\label{class_matrix_a6366c5b7374253eb1a29a3f3c2f10902}} 
+cord\+\_\+pair {\bfseries get\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{class_matrix_a0d0acfbb5a67263572b34808699ab48c}\label{class_matrix_a0d0acfbb5a67263572b34808699ab48c}} 
+double {\bfseries get\+\_\+eps} () const
+\item 
+\mbox{\Hypertarget{class_matrix_a72693d3dcb326ed099f70242fa3aad9e}\label{class_matrix_a72693d3dcb326ed099f70242fa3aad9e}} 
+sparse\+\_\+mat {\bfseries get\+\_\+numbers} () const
+\item 
+\mbox{\Hypertarget{class_matrix_a291b26a05ecc0181a44fa08ef0d03b8f}\label{class_matrix_a291b26a05ecc0181a44fa08ef0d03b8f}} 
+void {\bfseries set\+\_\+numbers} (sparse\+\_\+mat new\+\_\+nums)
+\item 
+\mbox{\Hypertarget{class_matrix_a844f8d6897fe18dfa81781632a0f3576}\label{class_matrix_a844f8d6897fe18dfa81781632a0f3576}} 
+{\bfseries Matrix} (nat\+\_\+num mat\+\_\+size=100, T value=T(1))
+\item 
+\mbox{\Hypertarget{class_matrix_aee263ccb350891f0758323f73f56d118}\label{class_matrix_aee263ccb350891f0758323f73f56d118}} 
+{\bfseries Matrix} (cord\+\_\+pair mat\+\_\+size, T value=T(0))
+\item 
+\mbox{\Hypertarget{class_matrix_a0235a9b1e26efd3f6fb61f2d60f1f67d}\label{class_matrix_a0235a9b1e26efd3f6fb61f2d60f1f67d}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\{\bfseries Matrix} (\mbox{\hyperlink{class_matrix}{Matrix}}$<$ K $>$ \&other)
+\item 
+\mbox{\Hypertarget{class_matrix_ab829dc851f8fcafee35a729a31457d73}\label{class_matrix_ab829dc851f8fcafee35a729a31457d73}} 
+{\bfseries Matrix} (const \mbox{\hyperlink{class_matrix}{Matrix}} \&other)
+\item 
+\mbox{\Hypertarget{class_matrix_a54ce5d5c00f8d62aa3337bdf82a7f756}\label{class_matrix_a54ce5d5c00f8d62aa3337bdf82a7f756}} 
+{\bfseries Matrix} (\mbox{\hyperlink{class_matrix}{Matrix}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{class_matrix_a99190799dad2b832302d073172daf24d}\label{class_matrix_a99190799dad2b832302d073172daf24d}} 
+{\bfseries Matrix} (const \mbox{\hyperlink{class_vector}{Vector}}$<$ T $>$ \&other)
+\item 
+\mbox{\Hypertarget{class_matrix_a82b04c3ea0455ad500ef42c0756262ec}\label{class_matrix_a82b04c3ea0455ad500ef42c0756262ec}} 
+{\bfseries Matrix} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{class_matrix_aa17a368923276d0f4363932ddc3306ff}\label{class_matrix_aa17a368923276d0f4363932ddc3306ff}} 
+{\footnotesize template$<$Any\+Num K$>$ \newline
+requires (!std\+::is\+\_\+same\+\_\+v$<$T, K$>$)}\\\mbox{\hyperlink{class_matrix}{Matrix}} \& {\bfseries operator=} (\mbox{\hyperlink{class_matrix}{Matrix}}$<$ K $>$ other)
+\item 
+\mbox{\Hypertarget{class_matrix_af312b4bc9cf582eda34ae727b29b999b}\label{class_matrix_af312b4bc9cf582eda34ae727b29b999b}} 
+\mbox{\hyperlink{class_matrix}{Matrix}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_matrix}{Matrix}} \&other)
+\item 
+\mbox{\Hypertarget{class_matrix_a9158433a4e5761462b4da2ab11f4b61b}\label{class_matrix_a9158433a4e5761462b4da2ab11f4b61b}} 
+\mbox{\hyperlink{class_matrix}{Matrix}} \& {\bfseries operator=} (\mbox{\hyperlink{class_matrix}{Matrix}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{class_matrix_a29acde86a6542ebbd1bde38549277290}\label{class_matrix_a29acde86a6542ebbd1bde38549277290}} 
+std\+::string {\bfseries to\+\_\+string} ()
+\item 
+\mbox{\Hypertarget{class_matrix_a6e001eeb470269a84e5e1047c480a27b}\label{class_matrix_a6e001eeb470269a84e5e1047c480a27b}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\void {\bfseries add\+\_\+number} (cord\+\_\+pair pos, K val)
+\item 
+\mbox{\Hypertarget{class_matrix_a1d7cd8df442befab800d87ebcb124ad0}\label{class_matrix_a1d7cd8df442befab800d87ebcb124ad0}} 
+void {\bfseries zero\+\_\+remove} (cord\+\_\+pair pos)
+\item 
+\mbox{\Hypertarget{class_matrix_a9e428f462cf20663437e2789379cf624}\label{class_matrix_a9e428f462cf20663437e2789379cf624}} 
+void {\bfseries last\+\_\+zero\+\_\+remove} ()
+\item 
+\mbox{\Hypertarget{class_matrix_a836f1c4c800ab514de294b615860b2a6}\label{class_matrix_a836f1c4c800ab514de294b615860b2a6}} 
+T \& {\bfseries operator()} (cord\+\_\+pair pos)
+\item 
+\mbox{\Hypertarget{class_matrix_a56957a688eaf46b29d5f75c309ba674b}\label{class_matrix_a56957a688eaf46b29d5f75c309ba674b}} 
+T \& {\bfseries operator()} (num line\+\_\+pos, num row\+\_\+pos)
+\item 
+\mbox{\Hypertarget{class_matrix_af5eb72c3986ea4ad1c90b3b05b40bd41}\label{class_matrix_af5eb72c3986ea4ad1c90b3b05b40bd41}} 
+\mbox{\hyperlink{class_matrix}{Matrix}} {\bfseries operator$\sim$} ()
+\item 
+\mbox{\Hypertarget{class_matrix_a5e53a831c453c47dece433ec4f4d76ea}\label{class_matrix_a5e53a831c453c47dece433ec4f4d76ea}} 
+\mbox{\hyperlink{class_matrix}{Matrix}} {\bfseries operator-\/} ()
+\item 
+\mbox{\Hypertarget{class_matrix_aa0c622b0314f74afd8a946e9c4493037}\label{class_matrix_aa0c622b0314f74afd8a946e9c4493037}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_matrix}{Matrix}}$<$ decltype(T()+K())$>$ {\bfseries operator+} (\mbox{\hyperlink{class_matrix}{Matrix}}$<$ K $>$ other\+\_\+mat)
+\item 
+\mbox{\Hypertarget{class_matrix_ae45cc7c3c9e496bd2d78c12ca30874af}\label{class_matrix_ae45cc7c3c9e496bd2d78c12ca30874af}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_matrix}{Matrix}}$<$ decltype(T() -\/K())$>$ {\bfseries operator-\/} (\mbox{\hyperlink{class_matrix}{Matrix}}$<$ K $>$ other\+\_\+mat)
+\item 
+\mbox{\Hypertarget{class_matrix_abbecce655ce40fe5b22242046cb301c6}\label{class_matrix_abbecce655ce40fe5b22242046cb301c6}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_matrix}{Matrix}}$<$ decltype(T() $\ast$K())$>$ {\bfseries operator$\ast$} (\mbox{\hyperlink{class_matrix}{Matrix}}$<$ K $>$ other\+\_\+mat)
+\item 
+\mbox{\Hypertarget{class_matrix_acfa3451d6c3a70baa5cbbd3595d957f4}\label{class_matrix_acfa3451d6c3a70baa5cbbd3595d957f4}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_matrix}{Matrix}}$<$ decltype(T() $\ast$K())$>$ {\bfseries operator$\ast$} (\mbox{\hyperlink{class_vector}{Vector}}$<$ K $>$ vec)
+\item 
+\mbox{\Hypertarget{class_matrix_a683d89e308903749535b85af691a4b79}\label{class_matrix_a683d89e308903749535b85af691a4b79}} 
+\mbox{\hyperlink{class_matrix}{Matrix}} {\bfseries operator\mbox{[}$\,$\mbox{]}} (\mbox{\hyperlink{class_matrix__coords}{Matrix\+\_\+coords}} boundaries)
+\item 
+\mbox{\Hypertarget{class_matrix_a7aeec006610c7621a9fc796f17c172fd}\label{class_matrix_a7aeec006610c7621a9fc796f17c172fd}} 
+\mbox{\hyperlink{class_matrix__proxy}{Matrix\+\_\+proxy}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (\mbox{\hyperlink{struct_matrix__row__coord}{Matrix\+\_\+row\+\_\+coord}} num)
+\item 
+\mbox{\Hypertarget{class_matrix_a88b448efdb9d4df16b6a6f180f2a11e4}\label{class_matrix_a88b448efdb9d4df16b6a6f180f2a11e4}} 
+\mbox{\hyperlink{class_matrix__proxy}{Matrix\+\_\+proxy}}$<$ T $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (\mbox{\hyperlink{struct_matrix__column__coord}{Matrix\+\_\+column\+\_\+coord}} num)
+\item 
+\mbox{\Hypertarget{class_matrix_a6e9f809faa34651dda42042fc5eba3f8}\label{class_matrix_a6e9f809faa34651dda42042fc5eba3f8}} 
+void {\bfseries to\+\_\+file} (const std\+::string \&filename=\char`\"{}output.\+txt\char`\"{})
+\item 
+\mbox{\Hypertarget{class_matrix_a70d32f7af267d2bc443bb3ddfe44d842}\label{class_matrix_a70d32f7af267d2bc443bb3ddfe44d842}} 
+void {\bfseries add\+\_\+reference} (\mbox{\hyperlink{class_matrix__proxy}{Matrix\+\_\+proxy}}$<$ T $>$ $\ast$new\+\_\+ref)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Matrix/Matrix.\+h\end{DoxyCompactItemize}

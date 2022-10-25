@@ -1,0 +1,164 @@
+\hypertarget{long__number_8h_source}{}\doxysection{long\+\_\+number.\+h}
+\label{long__number_8h_source}\index{Numbers/long\_number.h@{Numbers/long\_number.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <climits>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <numeric>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef SALNIKOV\_TASK\_LONG\_NUMBER\_H}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define SALNIKOV\_TASK\_LONG\_NUMBER\_H}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{classlong__number}{long\_number}};}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{// custom types}}
+\DoxyCodeLine{17 \textcolor{keyword}{using }num = \textcolor{keywordtype}{long} long;}
+\DoxyCodeLine{18 \textcolor{keyword}{using }nat\_num = \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} long;}
+\DoxyCodeLine{19 \textcolor{keyword}{using }numConvert =  std::pair<std::string, nat\_num>;}
+\DoxyCodeLine{20 \textcolor{keyword}{using }RatNum = std::pair<long\_number, long\_number>;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 nat\_num string\_to\_num(\textcolor{keyword}{const} std::string\& num);}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{// function for number power}}
+\DoxyCodeLine{25 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{26 \textcolor{keyword}{constexpr} nat\_num ipow(T num, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pow)}
+\DoxyCodeLine{27 \{}
+\DoxyCodeLine{28     \textcolor{keywordflow}{return} pow == 0 ? 1 : num * ipow(num, pow-\/1);}
+\DoxyCodeLine{29 \}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{class }\mbox{\hyperlink{classlong__number}{long\_number}}}
+\DoxyCodeLine{32 \{}
+\DoxyCodeLine{33     std::string number = \textcolor{stringliteral}{"{}0"{}};}
+\DoxyCodeLine{34     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} BASE\_NUM = 9, BASE = 10;}
+\DoxyCodeLine{35     \textcolor{comment}{// BASE\_NUM is number of digits used in operations}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} nat\_num BASE\_VAL = ipow(BASE, BASE\_NUM);}
+\DoxyCodeLine{38     \textcolor{comment}{// BASE\_VAL is number base of system (currently 10\string^9)}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{comment}{// sign of number}}
+\DoxyCodeLine{41     \textcolor{keywordtype}{bool} is\_negative = \textcolor{keyword}{false};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{comment}{// TO-\/DO: fracture\_num -\/-\/ number of numbers after point}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{public}:}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     [[nodiscard]] std::string get\_number()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} number;\}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     [[nodiscard]] nat\_num get\_length()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} number.length();\}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \mbox{\hyperlink{classlong__number}{long\_number}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{52     \textcolor{keyword}{explicit} \mbox{\hyperlink{classlong__number}{long\_number}}(\textcolor{keyword}{const} std::string\& num);}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T>)}
+\DoxyCodeLine{55     \mbox{\hyperlink{classlong__number}{long\_number}}(T num)}
+\DoxyCodeLine{56     \{is\_negative = num < 0;}
+\DoxyCodeLine{57     number = std::to\_string(num > 0 ? num : -\/num);\}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} get\_base\_num() \{\textcolor{keywordflow}{return} BASE\_NUM;\}}
+\DoxyCodeLine{60     \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} get\_base() \{\textcolor{keywordflow}{return} BASE;\}}
+\DoxyCodeLine{61     \textcolor{keyword}{static} nat\_num get\_base\_val() \{\textcolor{keywordflow}{return} BASE\_VAL;\}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     [[nodiscard]] \textcolor{keywordtype}{bool} get\_sign()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} is\_negative;\}}
+\DoxyCodeLine{64     [[nodiscard]] std::string to\_string()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} (is\_negative ? \textcolor{stringliteral}{"{}-\/"{}} : \textcolor{stringliteral}{"{}"{}}) + number;\}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{keywordtype}{void} set\_number(std::string num) \{number = std::move(num);\}}
+\DoxyCodeLine{67     \textcolor{keyword}{static} numConvert convert\_number(nat\_num number, nat\_num neededZeros);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{keyword}{static} std::string remove\_zeros(std::string str\_zeros);}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71     \textcolor{comment}{// right corner for number in cycle}}
+\DoxyCodeLine{72     \textcolor{keyword}{static} nat\_num get\_next\_pos(nat\_num pos) \{\textcolor{keywordflow}{return} pos > BASE\_NUM ? pos -\/ BASE\_NUM : 0;\}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     nat\_num get\_subpart(nat\_num cur\_pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     [[nodiscard]] RatNum get\_div\_mod(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}} \&num) \textcolor{keyword}{const};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator =(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{80     \mbox{\hyperlink{classlong__number}{long\_number}} operator-\/() \textcolor{keyword}{const};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82     \mbox{\hyperlink{classlong__number}{long\_number}} operator+(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{83     \mbox{\hyperlink{classlong__number}{long\_number}} operator*(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{84     \mbox{\hyperlink{classlong__number}{long\_number}} operator-\/(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{85     \mbox{\hyperlink{classlong__number}{long\_number}} operator/(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{86     \mbox{\hyperlink{classlong__number}{long\_number}} operator\%(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}} \&num) \textcolor{keyword}{const};}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator++() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + 1;\}}
+\DoxyCodeLine{89     \mbox{\hyperlink{classlong__number}{long\_number}} operator++(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{90     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator-\/-\/() \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ 1;\}}
+\DoxyCodeLine{91     \mbox{\hyperlink{classlong__number}{long\_number}} operator-\/-\/(\textcolor{keywordtype}{int})\&;}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     [[nodiscard]] \mbox{\hyperlink{classlong__number}{long\_number}} abs() \textcolor{keyword}{const};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator +=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} + num;\}}
+\DoxyCodeLine{96     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator -\/=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} -\/ num;\}}
+\DoxyCodeLine{97     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator *=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} * num;\}}
+\DoxyCodeLine{98     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator /=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} / num;\}}
+\DoxyCodeLine{99     \mbox{\hyperlink{classlong__number}{long\_number}}\& operator \%=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \{\textcolor{keywordflow}{return} *\textcolor{keyword}{this} = *\textcolor{keyword}{this} \% num;\}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \mbox{\hyperlink{classlong__number}{long\_number}} round() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{classlong__number}{long\_number}}(*\textcolor{keyword}{this});\}}
+\DoxyCodeLine{102     \mbox{\hyperlink{classlong__number}{long\_number}} ceil() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{classlong__number}{long\_number}}(*\textcolor{keyword}{this});\}}
+\DoxyCodeLine{103     \mbox{\hyperlink{classlong__number}{long\_number}} floor() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{classlong__number}{long\_number}}(*\textcolor{keyword}{this});\}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105     \textcolor{keywordtype}{bool} operator>(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{106     \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{107     \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{108     \textcolor{keywordtype}{bool} operator<(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{109     \textcolor{keywordtype}{bool} operator <= (\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{110     \textcolor{keywordtype}{bool} operator != (\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112     [[nodiscard]] \mbox{\hyperlink{classlong__number}{long\_number}} gcd(\mbox{\hyperlink{classlong__number}{long\_number}} num) \textcolor{keyword}{const};}
+\DoxyCodeLine{113     [[nodiscard]] \mbox{\hyperlink{classlong__number}{long\_number}} lcm(\textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& num) \textcolor{keyword}{const};}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     \textcolor{comment}{// cast from long number to one of integer type}}
+\DoxyCodeLine{117     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{requires} (std::is\_integral\_v<T>)}
+\DoxyCodeLine{118     \textcolor{keyword}{explicit} \textcolor{keyword}{operator} T()}
+\DoxyCodeLine{119     \{}
+\DoxyCodeLine{120         \textcolor{keywordflow}{if} ((*\textcolor{keyword}{this} > std::numeric\_limits<T>::max()) || (*this < std::numeric\_limits<T>::min()))}
+\DoxyCodeLine{121             \textcolor{keywordflow}{throw} std::out\_of\_range((\textcolor{stringliteral}{"{}Number "{}} + number + \textcolor{stringliteral}{"{} is out of range of type "{}} + std::string(\textcolor{keyword}{typeid}(T).name())).c\_str());}
+\DoxyCodeLine{122         \textcolor{keywordflow}{return} (T) (is\_negative ? std::stoll(\textcolor{stringliteral}{"{}-\/"{}} + number) : std::stoull(number));}
+\DoxyCodeLine{123     \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 \};}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127 \textcolor{keyword}{class }\mbox{\hyperlink{classnot__a__number__error}{not\_a\_number\_error}} : \textcolor{keyword}{public} std::exception}
+\DoxyCodeLine{128 \{}
+\DoxyCodeLine{129     std::string error\_msg;}
+\DoxyCodeLine{130     std::string input\_str;}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 \textcolor{keyword}{public}:}
+\DoxyCodeLine{133     \mbox{\hyperlink{classnot__a__number__error}{not\_a\_number\_error}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{134     \textcolor{keyword}{explicit} \mbox{\hyperlink{classnot__a__number__error}{not\_a\_number\_error}}(\textcolor{keyword}{const} std::string\& input);}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136     [[nodiscard]] \textcolor{keyword}{const} \textcolor{keywordtype}{char}* what() \textcolor{keyword}{const} \textcolor{keyword}{noexcept} \textcolor{keyword}{override};}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138     std::string get\_input() \{\textcolor{keywordflow}{return} input\_str;\}}
+\DoxyCodeLine{139 \};}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141 \textcolor{keywordtype}{bool} is\_number(\textcolor{keyword}{const} std::string\& s);}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{keyword}{class }\mbox{\hyperlink{classzero__division__error}{zero\_division\_error}} : \textcolor{keyword}{public} std::exception}
+\DoxyCodeLine{145 \{}
+\DoxyCodeLine{146     std::string error\_msg = \textcolor{stringliteral}{"{}Zero division detected"{}};}
+\DoxyCodeLine{147     RatNum div\_nums;}
+\DoxyCodeLine{148 \textcolor{keyword}{public}:}
+\DoxyCodeLine{149     \mbox{\hyperlink{classzero__division__error}{zero\_division\_error}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{150     \mbox{\hyperlink{classzero__division__error}{zero\_division\_error}}(\textcolor{keyword}{const} RatNum\& num);}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152     [[nodiscard]] \textcolor{keyword}{const} \textcolor{keywordtype}{char} * what () \textcolor{keyword}{const} \textcolor{keyword}{noexcept} \textcolor{keyword}{override};}
+\DoxyCodeLine{153     RatNum get\_numbers() \{\textcolor{keywordflow}{return} div\_nums;\}}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 \};}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 std::ostream\& operator<<(std::ostream\& os, \textcolor{keyword}{const} \mbox{\hyperlink{classlong__number}{long\_number}}\& number);}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SALNIKOV\_TASK\_RATIONAL\_H}}
+
+\end{DoxyCode}

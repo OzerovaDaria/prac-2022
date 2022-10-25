@@ -1,0 +1,98 @@
+\hypertarget{class_vector}{}\doxysection{Vector\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{class_vector}\index{Vector$<$ T $>$@{Vector$<$ T $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_vector_a7a09909e9064f597123edf328ebc9d89}\label{class_vector_a7a09909e9064f597123edf328ebc9d89}} 
+{\bfseries Vector} (nat\+\_\+num v\+\_\+siz=100, double cur\+\_\+ep=0.\+01, sparse\+\_\+nums cur\+\_\+nums=sparse\+\_\+nums())
+\item 
+\mbox{\Hypertarget{class_vector_a06c4fc93392def41641562fd3c042bc8}\label{class_vector_a06c4fc93392def41641562fd3c042bc8}} 
+sparse\+\_\+nums {\bfseries get\+\_\+numbers} ()
+\item 
+\mbox{\Hypertarget{class_vector_a54e87228545695153f96babe3eed47ca}\label{class_vector_a54e87228545695153f96babe3eed47ca}} 
+nat\+\_\+num {\bfseries get\+\_\+size} ()
+\item 
+\mbox{\Hypertarget{class_vector_a7270abaf16f1912e4a1c2971e0b2e4cd}\label{class_vector_a7270abaf16f1912e4a1c2971e0b2e4cd}} 
+double {\bfseries get\+\_\+eps} ()
+\item 
+\mbox{\Hypertarget{class_vector_a931195c199e0aa84e85c7a842419fe93}\label{class_vector_a931195c199e0aa84e85c7a842419fe93}} 
+void {\bfseries set\+\_\+size} (nat\+\_\+num new\+\_\+size)
+\item 
+\mbox{\Hypertarget{class_vector_afb7124a5d4427d0efbe3927398ad59e3}\label{class_vector_afb7124a5d4427d0efbe3927398ad59e3}} 
+void {\bfseries set\+\_\+eps} (double new\+\_\+eps)
+\item 
+\mbox{\Hypertarget{class_vector_a999071c2269fca7ddf225734b5b6c085}\label{class_vector_a999071c2269fca7ddf225734b5b6c085}} 
+void {\bfseries clear\+\_\+nums} ()
+\item 
+\mbox{\Hypertarget{class_vector_a6d41124127ccbb0cc4484ef069577344}\label{class_vector_a6d41124127ccbb0cc4484ef069577344}} 
+{\bfseries Vector} (T def\+\_\+val, nat\+\_\+num v\+\_\+siz=100, double cur\+\_\+ep=0.\+01)
+\item 
+\mbox{\Hypertarget{class_vector_a0e2a79c5837962a36a27a25267b3a24e}\label{class_vector_a0e2a79c5837962a36a27a25267b3a24e}} 
+{\bfseries Vector} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{class_vector_a593ac8d4dabca0f330fd0b5491c9788d}\label{class_vector_a593ac8d4dabca0f330fd0b5491c9788d}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\{\bfseries Vector} (\mbox{\hyperlink{class_vector}{Vector}}$<$ K $>$ \&other)
+\item 
+\mbox{\Hypertarget{class_vector_a940f94b7c4a1c15a65a1ab6e13859dfe}\label{class_vector_a940f94b7c4a1c15a65a1ab6e13859dfe}} 
+{\bfseries Vector} (const \mbox{\hyperlink{class_vector}{Vector}} \&other)
+\item 
+\mbox{\Hypertarget{class_vector_a5ed9bb7852ccee071f8418d10182927f}\label{class_vector_a5ed9bb7852ccee071f8418d10182927f}} 
+{\bfseries Vector} (\mbox{\hyperlink{class_vector}{Vector}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{class_vector_ae7e662c0f21bcf502a30860ffc19564e}\label{class_vector_ae7e662c0f21bcf502a30860ffc19564e}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\void {\bfseries add\+\_\+number} (nat\+\_\+num pos, K val)
+\item 
+\mbox{\Hypertarget{class_vector_a880a701fbc11432341361344bdc5084b}\label{class_vector_a880a701fbc11432341361344bdc5084b}} 
+void {\bfseries zeros\+\_\+erase} ()
+\item 
+\mbox{\Hypertarget{class_vector_aba8d216f365b80df989af71faae0f40f}\label{class_vector_aba8d216f365b80df989af71faae0f40f}} 
+void {\bfseries zero\+\_\+remove} (nat\+\_\+num pos)
+\item 
+\mbox{\Hypertarget{class_vector_ae6e13eaccbbf457b0694b817c96b0853}\label{class_vector_ae6e13eaccbbf457b0694b817c96b0853}} 
+void {\bfseries last\+\_\+zero\+\_\+remove} ()
+\item 
+\mbox{\Hypertarget{class_vector_ab95fc566f5432778b8d7583dc377a7e2}\label{class_vector_ab95fc566f5432778b8d7583dc377a7e2}} 
+T \& {\bfseries operator()} (nat\+\_\+num pos)
+\item 
+\mbox{\Hypertarget{class_vector_afd1a405fa9b29f2c6f1afc64fc00c4c6}\label{class_vector_afd1a405fa9b29f2c6f1afc64fc00c4c6}} 
+{\footnotesize template$<$Any\+Num K$>$ \newline
+requires (!std\+::is\+\_\+same\+\_\+v$<$T, K$>$)}\\\mbox{\hyperlink{class_vector}{Vector}} \& {\bfseries operator=} (\mbox{\hyperlink{class_vector}{Vector}}$<$ K $>$ other\+\_\+vec)
+\item 
+\mbox{\Hypertarget{class_vector_af69aa0816c41d6710a9ae2c341587c31}\label{class_vector_af69aa0816c41d6710a9ae2c341587c31}} 
+\mbox{\hyperlink{class_vector}{Vector}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_vector}{Vector}} \&other\+\_\+vec)
+\item 
+\mbox{\Hypertarget{class_vector_ac67bd50dc4e5aea465e9310a9af27f53}\label{class_vector_ac67bd50dc4e5aea465e9310a9af27f53}} 
+\mbox{\hyperlink{class_vector}{Vector}} \& {\bfseries operator=} (\mbox{\hyperlink{class_vector}{Vector}} \&\&other\+\_\+vec) noexcept
+\item 
+\mbox{\Hypertarget{class_vector_a5f949b4ad24fbc71fa0ef6e9a70152e2}\label{class_vector_a5f949b4ad24fbc71fa0ef6e9a70152e2}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T()+K())$>$ {\bfseries operator+} (K number)
+\item 
+\mbox{\Hypertarget{class_vector_a395f7ee7c31e7cf24966d4c8c39de319}\label{class_vector_a395f7ee7c31e7cf24966d4c8c39de319}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T() -\/K())$>$ {\bfseries operator-\/} (K number)
+\item 
+\mbox{\Hypertarget{class_vector_a31c415f5bc7d0559f480eecca7dec0f9}\label{class_vector_a31c415f5bc7d0559f480eecca7dec0f9}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T() $\ast$K())$>$ {\bfseries operator$\ast$} (K number)
+\item 
+\mbox{\Hypertarget{class_vector_a1fed13ac03c361e9f70406ba96e72e02}\label{class_vector_a1fed13ac03c361e9f70406ba96e72e02}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T()/K(1))$>$ {\bfseries operator/} (K number)
+\item 
+\mbox{\Hypertarget{class_vector_ae1cfdf227834bc42d2d6d687e8e13ed9}\label{class_vector_ae1cfdf227834bc42d2d6d687e8e13ed9}} 
+\mbox{\hyperlink{class_vector}{Vector}} {\bfseries operator-\/} ()
+\item 
+\mbox{\Hypertarget{class_vector_a06299024b07f82616e290d1667b1ac93}\label{class_vector_a06299024b07f82616e290d1667b1ac93}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T()+K())$>$ {\bfseries operator+} (\mbox{\hyperlink{class_vector}{Vector}}$<$ K $>$ other\+\_\+vec)
+\item 
+\mbox{\Hypertarget{class_vector_a3bc54de98c052f110097f0684e9e676b}\label{class_vector_a3bc54de98c052f110097f0684e9e676b}} 
+{\footnotesize template$<$Any\+Num K$>$ }\\\mbox{\hyperlink{class_vector}{Vector}}$<$ decltype(T() -\/K())$>$ {\bfseries operator-\/} (\mbox{\hyperlink{class_vector}{Vector}}$<$ K $>$ other\+\_\+vec)
+\item 
+\mbox{\Hypertarget{class_vector_af7b82d374b9f3ff5da69105cf150c44e}\label{class_vector_af7b82d374b9f3ff5da69105cf150c44e}} 
+std\+::string {\bfseries to\+\_\+string} ()
+\item 
+\mbox{\Hypertarget{class_vector_a0936021ce4cdf5228fc0f066cdca146d}\label{class_vector_a0936021ce4cdf5228fc0f066cdca146d}} 
+void {\bfseries to\+\_\+file} (const std\+::string \&filename=\char`\"{}output.\+txt\char`\"{})
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Matrix/Vector.\+h\end{DoxyCompactItemize}
