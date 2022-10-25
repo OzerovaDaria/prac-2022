@@ -1,0 +1,3 @@
+/Users/daria/CLionProjects/untitled/Hellish-Task/Salnikov_task/cmake-build-debug/CMakeFiles/Salnikov_task.dir
+/Users/daria/CLionProjects/untitled/Hellish-Task/Salnikov_task/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/daria/CLionProjects/untitled/Hellish-Task/Salnikov_task/cmake-build-debug/CMakeFiles/rebuild_cache.dir

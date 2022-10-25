@@ -14,7 +14,8 @@ int main() {
     auto cool_num = RationalNumber("3", "5");
     auto simplify_num = RationalNumber(10, -5);
     auto super_simplify = RationalNumber(-25, 500);
-    long_number smthcheck("123");
+    long_number smthcheck("-123535352626200");
+    std::cout << smthcheck.to_string() << std::endl;
     int simple_num = -14;
     unsigned long other_num = 11;
     auto test_comp = ComplexNumber<double, RationalNumber>(3.4, simplify_num);

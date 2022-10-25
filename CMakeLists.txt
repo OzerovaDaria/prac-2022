@@ -15,9 +15,5 @@ add_executable(Salnikov_task
         Matrix/Vector.h
         Matrix/Vector.cpp
         Matrix/Matrix.h
-        Matrix/Matrix.cpp)
-#        main.cpp)
-
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
-include_directories(.)
+        Matrix/Matrix.cpp
+        main.cpp)
